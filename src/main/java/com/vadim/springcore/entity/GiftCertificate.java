@@ -3,6 +3,7 @@ package com.vadim.springcore.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -31,9 +32,14 @@ public class GiftCertificate {
     @Column(name = "duration")
     private Integer duration;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "create_date")
     private Instant createDate;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "last_update_date")
     private Instant lastUpdateDate;
+
+    @Column(name = "description")
+    private String description;
 }
