@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005
+      author: VadimBelyaev
+      changes:
+        - addPrimaryKey:
+            tableName: gift_certificates_tags
+            columnNames: gift_certificate_id, tag_id
