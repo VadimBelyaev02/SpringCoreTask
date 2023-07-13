@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = "com.vadim.springcore")
 @RequiredArgsConstructor
-@PropertySource("classpath:")
+@PropertySource("classpath:properties/application.properties")
 public class ApplicationConfig {
 
     private final Environment environment;
