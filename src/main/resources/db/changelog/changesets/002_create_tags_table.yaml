@@ -4,7 +4,7 @@ databaseChangeLog:
       author: VadimBelyaev
       changes:
         - createTable:
-            tableName: tag
+            tableName: tags
             columns:
               - column:
                   name: id
