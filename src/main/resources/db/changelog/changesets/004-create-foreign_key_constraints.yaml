@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004
+      author: VadimBelyaev
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: gift_certificates_tags
+            baseColumnNames: gift_certificate_id
+            referencedTableName: gift_certificates
+            referencedColumnNames: id
+            constraintName: gift_certificates_id_fk
+        - addForeignKeyConstraint:
+            baseTableName: gift_certificates_tags
+            baseColumnNames: tag_id
+            referencedTableName: tags
+            referencedColumnNames: id
+            constraintName: tags_id_fk
