@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003
+      author: VadimBelyaev
+      comment: gift_certificate_tag table to represent many-to-many relationship between two tables
+      changes:
+        - createTable:
+            tableName: gift_certificates_tags
+            columns:
+              - column:
+                  name: gift_certificate_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tag_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+
