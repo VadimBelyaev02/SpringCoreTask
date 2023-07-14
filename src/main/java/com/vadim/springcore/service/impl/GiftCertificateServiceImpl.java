@@ -1,5 +1,6 @@
 package com.vadim.springcore.service.impl;
 
+import com.vadim.springcore.criteria.GiftCertificateCriteria;
 import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
 import com.vadim.springcore.service.GiftCertificateService;
@@ -26,12 +27,17 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public GiftCertificateResponseDto update(GiftCertificateRequestDto requestDto) {
+    public GiftCertificateResponseDto update(UUID id, GiftCertificateRequestDto requestDto) {
         return null;
     }
 
     @Override
     public void deleteById(UUID id) {
 
+    }
+
+    @Override
+    public List<GiftCertificateResponseDto> getAllByCriteria(GiftCertificateCriteria criteria) {
+        return null;
     }
 }
