@@ -1,18 +1,24 @@
 package com.vadim.springcore.controller;
 
+import com.vadim.springcore.criteria.GiftCertificateCriteria;
 import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.dto.response.ApiResponseDto;
 import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
 import com.vadim.springcore.service.GiftCertificateService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/giftCertificates")
@@ -35,25 +41,74 @@ public class GiftCertificateController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<GiftCertificateResponseDto> getAllGiftCertificates() {
-        return service.getAll();
+    public ApiResponseDto<List<GiftCertificateResponseDto>> getAllGiftCertificates() {
+        List<GiftCertificateResponseDto> giftCertificateResponseDtos = service.getAll();
+
+        return ApiResponseDto.<List<GiftCertificateResponseDto>>builder()
+                .data(giftCertificateResponseDtos)
+                .timestamp(Instant.now())
+                .message("Here is all gift certificates")
+                .color(ApiResponseDto.Color.SUCCESS)
+                .build();
+    }
+
+    @GetMapping("/criteria")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponseDto<List<GiftCertificateResponseDto>> getAllGiftCertificatesByCriteria(
+        @RequestParam(value = "tagName", required = false) String tagName,
+        @RequestParam(value = "sortByName", required = false) String sortByName,
+        @RequestParam(value = "sortByDate", required = false) String sortByDate
+    ) {
+        GiftCertificateCriteria criteria = GiftCertificateCriteria.builder()
+                .tagName(tagName)
+                .sortByDate(sortByDate)
+                .sortByName(sortByName)
+                .build();
+        List<GiftCertificateResponseDto> responseDtos = service.getAllByCriteria(criteria);
+
+        return ApiResponseDto.<List<GiftCertificateResponseDto>>builder()
+                .color(ApiResponseDto.Color.SUCCESS)
+                .message("All gift certificates by provided criteria")
+                .timestamp(Instant.now())
+                .data(responseDtos)
+                .build();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GiftCertificateResponseDto postGiftCertificate(@RequestBody GiftCertificateRequestDto requestDto) {
-        return service.save(requestDto);
+    public ApiResponseDto<GiftCertificateResponseDto> postGiftCertificate(@RequestBody @Valid GiftCertificateRequestDto requestDto) {
+        GiftCertificateResponseDto responseDto = service.save(requestDto);
+
+        return ApiResponseDto.<GiftCertificateResponseDto>builder()
+                .message("Gift certificate was created")
+                .timestamp(Instant.now())
+                .data(responseDto)
+                .color(ApiResponseDto.Color.SUCCESS)
+                .build();
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GiftCertificateResponseDto putGiftCertificate(@RequestBody GiftCertificateRequestDto requestDto) {
-        return service.update(requestDto);
+    public ApiResponseDto<GiftCertificateResponseDto> putGiftCertificate(@PathVariable("id") UUID id,
+                                                         @RequestBody GiftCertificateRequestDto requestDto) {
+        GiftCertificateResponseDto responseDto = service.update(id, requestDto);
+        return ApiResponseDto.<GiftCertificateResponseDto>builder()
+                .data(responseDto)
+                .color(ApiResponseDto.Color.SUCCESS)
+                .timestamp(Instant.now())
+                .message("Gift certificate with id = " + id + " was successfully updated")
+                .build();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGiftCertificate(@PathVariable("id") UUID id) {
+    public ApiResponseDto<?> deleteGiftCertificate(@PathVariable("id") UUID id) {
         service.deleteById(id);
+
+        return ApiResponseDto.builder()
+                .color(ApiResponseDto.Color.SUCCESS)
+                .timestamp(Instant.now())
+                .message("Gift certificate with id = " + id + " was successfully deleted")
+                .build();
     }
 }
