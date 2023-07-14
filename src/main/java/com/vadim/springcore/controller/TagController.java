@@ -1,13 +1,17 @@
 package com.vadim.springcore.controller;
 
 import com.vadim.springcore.dto.request.TagRequestDto;
+import com.vadim.springcore.dto.response.ApiResponseDto;
 import com.vadim.springcore.dto.response.TagResponseDto;
 import com.vadim.springcore.service.TagService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -19,31 +23,57 @@ public class TagController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TagResponseDto getTag(@PathVariable("id") UUID id) {
-        return service.getById(id);
+    public ApiResponseDto<TagResponseDto> getTag(@PathVariable("id") UUID id) {
+        TagResponseDto tagResponseDto = service.getById(id);
+
+        return ApiResponseDto.successApiResponse(
+                "Tag with id = " + id,
+                tagResponseDto
+        );
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TagResponseDto> getAllTags() {
-        return service.getAll();
+    public ApiResponseDto<List<TagResponseDto>> getAllTags() {
+        List<TagResponseDto> tagResponseDtos = service.getAll();
+
+        return ApiResponseDto.successApiResponse(
+                "All tags",
+                tagResponseDtos
+        );
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TagResponseDto postTag(@RequestBody TagRequestDto requestDto) {
-        return service.save(requestDto);
+    public ApiResponseDto<TagResponseDto> postTag(@RequestBody @Valid TagRequestDto requestDto) {
+        TagResponseDto tagResponseDto = service.save(requestDto);
+
+        return ApiResponseDto.successApiResponse(
+                "Tag with id = " + tagResponseDto.getId() + " was successfully created",
+                tagResponseDto
+        );
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TagResponseDto putTag(@RequestBody TagRequestDto requestDto) {
-        return service.update(requestDto);
+    public ApiResponseDto<TagResponseDto> putTag(@PathVariable("id") UUID id,
+                                                 @RequestBody TagRequestDto requestDto) {
+        TagResponseDto tagResponseDto = service.update(requestDto);
+
+        return ApiResponseDto.successApiResponse(
+                "Tag with id = " + tagResponseDto.getId() + " was successfully updated",
+                tagResponseDto
+        );
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTag(@PathVariable("id") UUID id) {
+    public ApiResponseDto<?> deleteTag(@PathVariable("id") UUID id) {
         service.deleteById(id);
+
+        return ApiResponseDto.successApiResponse(
+                "Tag with id = " + id + " was successfully deleted",
+                Optional.empty()
+        );
     }
 }
