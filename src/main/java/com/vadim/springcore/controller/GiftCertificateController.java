@@ -1,12 +1,15 @@
 package com.vadim.springcore.controller;
 
 import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
+import com.vadim.springcore.dto.response.ApiResponseDto;
 import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
 import com.vadim.springcore.service.GiftCertificateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,8 +22,15 @@ public class GiftCertificateController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GiftCertificateResponseDto getGiftCertificate(@PathVariable("id") UUID id) {
-        return service.getById(id);
+    public ApiResponseDto<GiftCertificateResponseDto> getGiftCertificate(@PathVariable("id") UUID id) {
+        GiftCertificateResponseDto giftCertificateResponseDto = service.getById(id);
+
+        return ApiResponseDto.<GiftCertificateResponseDto>builder()
+                .data(giftCertificateResponseDto)
+                .timestamp(Instant.now())
+                .message("Gift certificate with id = " + id)
+                .color(ApiResponseDto.Color.SUCCESS)
+                .build();
     }
 
     @GetMapping
