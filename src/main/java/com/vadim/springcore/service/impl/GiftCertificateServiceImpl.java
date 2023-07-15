@@ -1,34 +1,63 @@
 package com.vadim.springcore.service.impl;
 
 import com.vadim.springcore.criteria.GiftCertificateCriteria;
+import com.vadim.springcore.dao.GiftCertificateDao;
+import com.vadim.springcore.dto.converter.GiftCertificateConverter;
+import com.vadim.springcore.dto.mapper.GiftCertificateMapper;
 import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
+import com.vadim.springcore.entity.GiftCertificate;
+import com.vadim.springcore.exception.NotFoundException;
 import com.vadim.springcore.service.GiftCertificateService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static com.vadim.springcore.utils.constants.GiftCertificateConstants.GIFT_CERTIFICATE_NOT_FOUND_BY_ID;
 
 @Service
+@RequiredArgsConstructor
 public class GiftCertificateServiceImpl implements GiftCertificateService {
+
+    private final GiftCertificateDao dao;
+    private final GiftCertificateMapper mapper;
+
     @Override
     public GiftCertificateResponseDto getById(UUID id) {
-        return null;
+        GiftCertificate giftCertificate = dao.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id))
+        );
+        return mapper.toResponseDto(giftCertificate);
     }
 
     @Override
     public List<GiftCertificateResponseDto> getAll() {
-        return null;
+       return dao.findAll().stream()
+               .map(mapper::toResponseDto)
+               .collect(Collectors.toList());
     }
 
     @Override
     public GiftCertificateResponseDto save(GiftCertificateRequestDto requestDto) {
-        return null;
+        GiftCertificate giftCertificate = mapper.toEntity(requestDto);
+        giftCertificate.setCreateDate(Instant.now());
+        giftCertificate.setLastUpdateDate(Instant.now());
+
+        return mapper.toResponseDto(dao.save(giftCertificate));
     }
 
     @Override
     public GiftCertificateResponseDto update(UUID id, GiftCertificateRequestDto requestDto) {
-        return null;
+        GiftCertificate giftCertificate = dao.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id))
+        );
+        mapper.updateGiftCertificateFromDto(requestDto, giftCertificate);
+        giftCertificate.setLastUpdateDate(Instant.now());
+        return mapper.toResponseDto(dao.update(giftCertificate));
     }
 
     @Override
