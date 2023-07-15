@@ -74,9 +74,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public GiftCertificate update(GiftCertificate giftCertificate) {
-        final String SQL_UPDATE = "UPDATE tags SET name = ? WHERE id = ?";
+        final String SQL_UPDATE = "UPDATE tags SET name = ?, price = ?, duration = ?, create_date = ?, last_update_date = ?, description = ? WHERE id = ?";
 
-        int rowAffected = template.update(SQL_UPDATE, giftCertificate.getName(), giftCertificate.getId());
+        int rowAffected = template.update(SQL_UPDATE, giftCertificate.getName(), giftCertificate.getPrice(), giftCertificate.getDuration(),
+                giftCertificate.getCreateDate(), giftCertificate.getLastUpdateDate(), giftCertificate.getDescription(), giftCertificate.getId());
 
         return giftCertificate;
     }
