@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007
+      author: VadimBelyaev
+      comment: Creates an extension that will generate uuid automatically for new record
+      changes:
+        - sql:
+            dbms: postgresql
+            endDelimiter: ;;
+            sql: CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
