@@ -62,7 +62,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public void deleteById(UUID id) {
-
+        if (!dao.existsById(id)) {
+            throw new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id));
+        }
+        dao.deleteById(id);
     }
 
     @Override
