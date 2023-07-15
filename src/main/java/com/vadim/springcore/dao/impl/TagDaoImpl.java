@@ -72,4 +72,11 @@ public class TagDaoImpl implements TagDao {
 
         int rowAffected = template.update(SQL_DELETE_BY_ID, id);
     }
+
+    @Override
+    public boolean existsById(UUID id) {
+        final String SQL_FIND_BY_ID = "SELECT * FROM tags WHERE id = ?";
+        Tag tag = template.queryForObject(SQL_FIND_BY_ID, mapper, id);
+        return tag != null;
+    }
 }

@@ -6,11 +6,13 @@ import com.vadim.springcore.entity.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -60,11 +62,16 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     public GiftCertificate save(GiftCertificate giftCertificate) {
         final String SQL_SAVE = "INSERT INTO gift_certificates (name, price, duration, create_date, last_update_date, description) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        int rowAffected = template.update(SQL_SAVE, giftCertificate.getName(), giftCertificate.getPrice(),
-                giftCertificate.getDuration(), giftCertificate.getCreateDate(), giftCertificate.getLastUpdateDate(),
-                giftCertificate.getDescription(), keyHolder);
-        // maybe it's good to check whether exactly one tow was updated but I don't know how to do it properly now
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("name", giftCertificate.getName());
+        parameters.addValue("price", giftCertificate.getPrice());
+        parameters.addValue("duration", giftCertificate.getDuration());
+        parameters.addValue("create_date", giftCertificate.getCreateDate());
+        parameters.addValue("last_update_date", giftCertificate.getLastUpdateDate());
+        parameters.addValue("description", giftCertificate.getDescription());
 
+        int rowAffected = template.update(SQL_SAVE, parameters, keyHolder);
+        // maybe it's good to check whether exactly one tow was updated but I don't know how to do it properly now
         if (Objects.isNull(keyHolder.getKey()) || rowAffected != 1) {
             throw new RuntimeException();
         }
@@ -87,5 +94,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         final String SQL_DELETE_BY_ID = "DELETE FROM tags WHERE id = ?";
 
         int rowAffected = template.update(SQL_DELETE_BY_ID, id);
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return false;
     }
 }
