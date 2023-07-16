@@ -5,6 +5,7 @@ import com.vadim.springcore.entity.GiftCertificate;
 import com.vadim.springcore.entity.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -12,12 +13,13 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.sql.Types;
+import java.sql.*;
+import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,10 +31,13 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         final UUID id = UUID.fromString(rs.getString("id"));
         final String name = rs.getString("name");
         final BigDecimal price = rs.getBigDecimal("price");
-        final Instant createDate = rs.getObject("create_date", Instant.class);
-        final Instant lastUpdateDate = rs.getObject("last_update_date", Instant.class);
+        final Timestamp createDateTimestamp = rs.getTimestamp("create_date");
+        final Timestamp lastUpdateDateTimestamp = rs.getTimestamp("last_update_date");
         final String description = rs.getString("description");
         final Integer duration = rs.getInt("duration");
+
+        Instant createDate = createDateTimestamp.toInstant();
+        Instant lastUpdateDate = lastUpdateDateTimestamp.toInstant();
 
         return GiftCertificate.builder()
                 .price(price)
@@ -59,24 +64,34 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public GiftCertificate save(GiftCertificate giftCertificate) {
-        final String SQL_SAVE = "INSERT INTO gift_certificates (name, price, duration, create_date, last_update_date, description) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+    public GiftCertificate save(GiftCertificate gc) {
+        final String SQL_INSERT = "INSERT INTO gift_certificates (id, name, price, duration, create_date, last_update_date, description) VALUES (uuid_generate_v4(), ?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("name", giftCertificate.getName());
-        parameters.addValue("price", giftCertificate.getPrice());
-        parameters.addValue("duration", giftCertificate.getDuration());
-        parameters.addValue("create_date", giftCertificate.getCreateDate());
-        parameters.addValue("last_update_date", giftCertificate.getLastUpdateDate());
-        parameters.addValue("description", giftCertificate.getDescription());
 
-        int rowAffected = template.update(SQL_SAVE, parameters, keyHolder);
-        // maybe it's good to check whether exactly one tow was updated but I don't know how to do it properly now
-        if (Objects.isNull(keyHolder.getKey()) || rowAffected != 1) {
+        int rowAffected = template.update(con -> {
+            PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, gc.getName());
+            ps.setBigDecimal(2, gc.getPrice());
+            ps.setInt(3, gc.getDuration());
+            ps.setObject(4, Timestamp.from(gc.getCreateDate()));
+            ps.setObject(5, Timestamp.from(gc.getLastUpdateDate()));
+            ps.setObject(6, gc.getDescription());
+            return ps;
+        }, keyHolder);
+
+        Map<String, Object> keys = keyHolder.getKeys();
+        Object object = Objects.requireNonNull(keys).get("id");
+        if (Objects.isNull(object) || rowAffected != 1) {
             throw new RuntimeException();
         }
-        giftCertificate.setId(UUID.fromString(keyHolder.getKey().toString()));
-        return giftCertificate;
+        gc.setId(UUID.fromString(object.toString()));
+
+//        final String SQL_INSERT_GIFT_CERTIFICATES_TAGS = "INSERT INTO gift_certificates_tags (gift_certificate_id, tag_id) VALUES(?, ?)";
+//        gc.getTags().forEach(
+//                final String SQL_FIND_TAG_BY_NAME =
+//                tag -> template.update(SQL_INSERT_GIFT_CERTIFICATES_TAGS, gc.getId(), tag.getId())
+//        );
+        return gc;
     }
 
     @Override
@@ -84,7 +99,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         final String SQL_UPDATE = "UPDATE tags SET name = ?, price = ?, duration = ?, create_date = ?, last_update_date = ?, description = ? WHERE id = ?";
 
         int rowAffected = template.update(SQL_UPDATE, giftCertificate.getName(), giftCertificate.getPrice(), giftCertificate.getDuration(),
-                giftCertificate.getCreateDate(), giftCertificate.getLastUpdateDate(), giftCertificate.getDescription(), giftCertificate.getId());
+                Timestamp.from(giftCertificate.getCreateDate()), Timestamp.from(giftCertificate.getLastUpdateDate()), giftCertificate.getDescription(), giftCertificate.getId());
 
         return giftCertificate;
     }
