@@ -79,4 +79,13 @@ public class TagDaoImpl implements TagDao {
         Tag tag = template.queryForObject(SQL_FIND_BY_ID, mapper, id);
         return tag != null;
     }
+
+    @Override
+    public List<Tag> saveBatch(List<Tag> tags) {
+        final String SQL_SAVE_BATCH = "INSERT INTO tags (id, name) VALUES (uuid_generate_v4(), ?) ON CONFLICT UPDATE";
+        return null;
+//        int[][] batchUpdateResult = template.batchUpdate(SQL_SAVE_BATCH, tags, tags.size(),
+//                (ps, tag) -> ps.setString(1, tag.getName()));
+
+    }
 }
