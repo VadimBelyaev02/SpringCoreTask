@@ -2,11 +2,14 @@ package com.vadim.springcore.service.impl;
 
 import com.vadim.springcore.criteria.GiftCertificateCriteria;
 import com.vadim.springcore.dao.GiftCertificateDao;
+import com.vadim.springcore.dao.GiftCertificateTagDao;
 import com.vadim.springcore.dao.TagDao;
 import com.vadim.springcore.dto.mapper.GiftCertificateMapper;
 import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
 import com.vadim.springcore.entity.GiftCertificate;
+import com.vadim.springcore.entity.GiftCertificateTag;
+import com.vadim.springcore.entity.GiftCertificateTagId;
 import com.vadim.springcore.exception.NotFoundException;
 import com.vadim.springcore.service.GiftCertificateService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,9 @@ import static com.vadim.springcore.utils.constants.GiftCertificateConstants.GIFT
 public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private final GiftCertificateDao giftCertificateDao;
+    private final GiftCertificateTagDao giftCertificateTagDao;
     private final GiftCertificateMapper mapper;
+    private final TagDao tagDao;
 
     @Override
     public GiftCertificateResponseDto getById(UUID id) {
@@ -36,9 +41,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public List<GiftCertificateResponseDto> getAll() {
-       return giftCertificateDao.findAll().stream()
-               .map(mapper::toResponseDto)
-               .collect(Collectors.toList());
+        return giftCertificateDao.findAll().stream()
+                .map(mapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -47,6 +52,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificate.setCreateDate(Instant.now());
         giftCertificate.setLastUpdateDate(Instant.now());
 
+        giftCertificate = giftCertificateDao.save(giftCertificate);
+
+        final GiftCertificate finalGiftCertificate = giftCertificate;
+        giftCertificate.getTags().forEach(
+                //tag -> {
+                // tagDao.saveIfNotExists()
+                tag -> giftCertificateTagDao.save(new GiftCertificateTag(new GiftCertificateTagId(finalGiftCertificate.getId(), tag.getId())))
+
+                //}
+        );
         return mapper.toResponseDto(giftCertificateDao.save(giftCertificate));
     }
 
