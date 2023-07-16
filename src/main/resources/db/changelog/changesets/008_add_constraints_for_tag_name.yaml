@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008
+      author: VadimBelyaev
+      changes:
+        - addNotNullConstraint:
+            tableName: tags
+            columnName: name
+        - addUniqueConstraint:
+            tableName: tags
+            columnNames: name
