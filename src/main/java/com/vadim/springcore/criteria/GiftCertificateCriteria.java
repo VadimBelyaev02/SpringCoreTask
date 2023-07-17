@@ -8,6 +8,8 @@ import lombok.Getter;
 public class GiftCertificateCriteria {
 
     private String tagName;
+    private String partOfDescription;
+    private String partOfTagName;
     private String sortByDate;
     private String sortByName;
 }

@@ -57,11 +57,15 @@ public class GiftCertificateController {
     public ApiResponseDto<List<GiftCertificateResponseDto>> getAllGiftCertificatesByCriteria(
         @RequestParam(value = "tagName", required = false) String tagName,
         @RequestParam(value = "sortByName", required = false) String sortByName,
-        @RequestParam(value = "sortByDate", required = false) String sortByDate
+        @RequestParam(value = "sortByDate", required = false) String sortByDate,
+        @RequestParam(value = "partOfDescription", required = false) String partOfDescription,
+        @RequestParam(value = "partOfTagName", required = false) String partOfTagName
     ) {
         GiftCertificateCriteria criteria = GiftCertificateCriteria.builder()
                 .tagName(tagName)
                 .sortByDate(sortByDate)
+                .partOfDescription(partOfDescription)
+                .partOfTagName(partOfTagName)
                 .sortByName(sortByName)
                 .build();
         List<GiftCertificateResponseDto> responseDtos = service.getAllByCriteria(criteria);
