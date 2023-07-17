@@ -51,18 +51,18 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public Optional<GiftCertificate> findById(UUID id) {
-        final String SQL_FIND_BY_ID = "SELECT * FROM gift_certificates WHERE id = ?";
-        return template.query(SQL_FIND_BY_ID, mapper, id).stream()
+        final String SQL = "SELECT * FROM gift_certificates WHERE id = ?";
+        return template.query(SQL, mapper, id).stream()
                 .findFirst();
     }
 
     @Override
     public GiftCertificate save(GiftCertificate gc) {
-        final String SQL_INSERT = "INSERT INTO gift_certificates (id, name, price, duration, create_date, last_update_date, description) VALUES (uuid_generate_v4(), ?, ?, ?, ?, ?, ?)";
+        final String SQL = "INSERT INTO gift_certificates (id, name, price, duration, create_date, last_update_date, description) VALUES (uuid_generate_v4(), ?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int rowAffected = template.update(con -> {
-            PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, gc.getName());
             ps.setBigDecimal(2, gc.getPrice());
             ps.setInt(3, gc.getDuration());
@@ -78,20 +78,14 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             throw new RuntimeException();
         }
         gc.setId(UUID.fromString(object.toString()));
-
-//        final String SQL_INSERT_GIFT_CERTIFICATES_TAGS = "INSERT INTO gift_certificates_tags (gift_certificate_id, tag_id) VALUES(?, ?)";
-//        gc.getTags().forEach(
-//                final String SQL_FIND_TAG_BY_NAME =
-//                tag -> template.update(SQL_INSERT_GIFT_CERTIFICATES_TAGS, gc.getId(), tag.getId())
-//        );
         return gc;
     }
 
     @Override
     public GiftCertificate update(GiftCertificate giftCertificate) {
-        final String SQL_UPDATE = "UPDATE tags SET name = ?, price = ?, duration = ?, create_date = ?, last_update_date = ?, description = ? WHERE id = ?";
+        final String SQL = "UPDATE gift_certificates SET name = ?, price = ?, duration = ?, create_date = ?, last_update_date = ?, description = ? WHERE id = ?";
 
-        int rowAffected = template.update(SQL_UPDATE, giftCertificate.getName(), giftCertificate.getPrice(), giftCertificate.getDuration(),
+        int rowAffected = template.update(SQL, giftCertificate.getName(), giftCertificate.getPrice(), giftCertificate.getDuration(),
                 Timestamp.from(giftCertificate.getCreateDate()), Timestamp.from(giftCertificate.getLastUpdateDate()), giftCertificate.getDescription(), giftCertificate.getId());
 
         return giftCertificate;
@@ -99,15 +93,15 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public void deleteById(UUID id) {
-        final String SQL_DELETE_BY_ID = "DELETE FROM tags WHERE id = ?";
+        final String SQL = "DELETE FROM gift_certificates WHERE id = ?";
 
-        int rowAffected = template.update(SQL_DELETE_BY_ID, id);
+        int rowAffected = template.update(SQL, id);
     }
 
     @Override
     public boolean existsById(UUID id) {
-        final String SQL_FIND_BY_ID = "SELECT * FROM gift_certificates WHERE id = ?";
-        return template.query(SQL_FIND_BY_ID, mapper, id).size() > 0;
+        final String SQL = "SELECT * FROM gift_certificates WHERE id = ?";
+        return template.query(SQL, mapper, id).size() > 0;
     }
 
     @Override
