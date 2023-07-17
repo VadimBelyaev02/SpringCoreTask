@@ -38,22 +38,20 @@ public class TagDaoImpl implements TagDao {
     @Override
     public Optional<Tag> findById(UUID id) {
         final String SQL_FIND_BY_ID = "SELECT * FROM tags WHERE id = ?";
-        Tag tag = template.queryForObject(SQL_FIND_BY_ID, mapper, id);
-        return Optional.ofNullable(tag);
+        return template.query(SQL_FIND_BY_ID, mapper, id).stream().findFirst();
     }
 
     @Override
     public Tag save(Tag tag) {
-        final String SQL_INSERT = "INSERT INTO tags (name) VALUES (?) RETURNING id";
+        System.err.println(tag.getName());
+        final String SQL_INSERT = "INSERT INTO tags (id, name) VALUES (uuid_generate_v4(), ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int rowAffected = template.update(con -> {
             PreparedStatement ps = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, tag.getName());
-            ps.setString(2, tag.getName());
             return ps;
         }, keyHolder);
-        template.update(SQL_INSERT, tag.getName(), tag.getName());
         Map<String, Object> keys = keyHolder.getKeys();
         Object object = Objects.requireNonNull(keys).get("id");
         if (Objects.isNull(object) || rowAffected != 1) {
@@ -82,18 +80,14 @@ public class TagDaoImpl implements TagDao {
     @Override
     public boolean existsById(UUID id) {
         final String SQL_FIND_BY_ID = "SELECT * FROM tags WHERE id = ?";
-        Tag tag = template.queryForObject(SQL_FIND_BY_ID, mapper, id);
-        return tag != null;
+        return template.query(SQL_FIND_BY_ID, mapper, id).size() > 0;
     }
 
 
     @Override
     public Tag saveIfNotExists(Tag tag) {
         final String SQL_SELECT = "SELECT * FROM tags WHERE name = ?";
-        Tag tagFromDb = template.queryForObject(SQL_SELECT, mapper, tag.getName());
-        if (Objects.nonNull(tagFromDb)) {
-            return tagFromDb;
-        }
-        return save(tag);
+        Optional<Tag> optionalTag = template.query(SQL_SELECT, mapper, tag.getName()).stream().findFirst();
+        return optionalTag.orElseGet(() -> save(tag));
     }
 }
