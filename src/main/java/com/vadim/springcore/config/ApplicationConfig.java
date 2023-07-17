@@ -8,12 +8,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 
 @EnableWebMvc
+@EnableTransactionManagement
 @Configuration
 @ComponentScan(basePackages = "com.vadim.springcore")
 @RequiredArgsConstructor
@@ -43,5 +47,12 @@ public class ApplicationConfig {
         liquibase.setChangeLog("classpath:db/changelog/db-master-changelog.yaml");
         liquibase.setDataSource(dataSource);
         return liquibase;
+    }
+
+    @Bean
+    public PlatformTransactionManager dataSourceTransactionManager() {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(dataSource());
+        return transactionManager;
     }
 }
