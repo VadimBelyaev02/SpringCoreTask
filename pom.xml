@@ -113,6 +113,11 @@
                             <artifactId>lombok</artifactId>
                             <version>1.18.28</version>
                         </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
                     </annotationProcessorPaths>
 
                     <showWarnings>true</showWarnings>
