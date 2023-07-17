@@ -9,5 +9,5 @@ public interface TagDao extends CrudDao<Tag, UUID> {
 
     boolean existsById(UUID id);
 
-    List<Tag> saveBatch(List<Tag> tags);
+    Tag saveIfNotExists(Tag tag);
 }
