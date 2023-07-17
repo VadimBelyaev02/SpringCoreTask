@@ -12,4 +12,6 @@ public interface TagDao extends CrudDao<Tag, UUID> {
     Tag saveIfNotExists(Tag tag);
 
     List<Tag> findAllByGiftCertificateId(UUID id);
+
+    boolean existsByName(String name);
 }
