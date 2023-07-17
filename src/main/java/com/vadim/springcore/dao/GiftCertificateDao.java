@@ -10,4 +10,8 @@ public interface GiftCertificateDao extends CrudDao<GiftCertificate, UUID> {
     boolean existsById(UUID id);
 
     List<GiftCertificate> findAllByTagName(String tagName);
+
+    List<GiftCertificate> findAllLikeTagName(String partOfTagName);
+
+    List<GiftCertificate> findAllLikeDescription(String partOfDescription);
 }

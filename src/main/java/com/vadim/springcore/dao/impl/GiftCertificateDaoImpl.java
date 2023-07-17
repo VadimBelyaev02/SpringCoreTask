@@ -52,8 +52,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public Optional<GiftCertificate> findById(UUID id) {
         final String SQL_FIND_BY_ID = "SELECT * FROM gift_certificates WHERE id = ?";
-        GiftCertificate giftCertificate = template.queryForObject(SQL_FIND_BY_ID, mapper, id);
-        return Optional.ofNullable(giftCertificate);
+        return template.query(SQL_FIND_BY_ID, mapper, id).stream().findFirst();
     }
 
     @Override
@@ -106,6 +105,34 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public boolean existsById(UUID id) {
-        return false;
+        final String SQL_FIND_BY_ID = "SELECT * FROM gift_certificates WHERE id = ?";
+        return template.query(SQL_FIND_BY_ID, mapper, id).size() > 0;
+    }
+
+    @Override
+    public List<GiftCertificate> findAllByTagName(String tagName) {
+        final String SQL = "SELECT gift_certificates.* FROM gift_certificates\n" +
+                "WHERE gift_certificates.id IN (\n" +
+                "    SELECT gift_certificate_id FROM gift_certificates_tags\n" +
+                "    JOIN tags ON tags.id = gift_certificates_tags.tag_id\n" +
+                "    WHERE tags.name = ?\n" +
+                "    )";
+        return template.query(SQL, mapper, tagName);
+    }
+
+    @Override
+    public List<GiftCertificate> findAllLikeTagName(String partOfTagName) {
+        final String SQL = "SELECT gift_certificates.* FROM gift_certificates\n" +
+                "WHERE gift_certificates.id IN (\n" +
+                "    SELECT gift_certificate_id FROM gift_certificates_tags\n" +
+                "    JOIN tags ON tags.id = gift_certificates_tags.tag_id\n" +
+                "    WHERE tags.name ILIKE ?);";
+        return template.query(SQL, mapper, '%' + partOfTagName + '%');
+    }
+
+    @Override
+    public List<GiftCertificate> findAllLikeDescription(String partOfDescription) {
+        final String SQL = "SELECT * FROM gift_certificates WHERE description ILIKE ?";
+        return template.query(SQL, mapper, '%' + partOfDescription + '%');
     }
 }
