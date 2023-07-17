@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface TagMapper {
 
-    Tag toEntity(TagRequestDto requestDto);
+    Tag toEntity(TagRequestDto dto);
 
     TagResponseDto toResponseDto(Tag tag);
 
