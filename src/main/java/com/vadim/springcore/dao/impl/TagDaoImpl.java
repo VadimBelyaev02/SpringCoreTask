@@ -90,4 +90,24 @@ public class TagDaoImpl implements TagDao {
         Optional<Tag> optionalTag = template.query(SQL_SELECT, mapper, tag.getName()).stream().findFirst();
         return optionalTag.orElseGet(() -> save(tag));
     }
+
+    @Override
+    public List<Tag> findAllByGiftCertificateId(UUID id) {
+        final String SQL = "SELECT * FROM tags\n" +
+                "JOIN gift_certificates_tags gct on gct.tag_id = tags.id\n" +
+                "JOIN gift_certificates gc on gct.gift_certificate_id = gc.id\n" +
+                "WHERE gift_certificate_id = ?";
+        return template.query(SQL, mapper, id);
+    }
+    /*
+SELECT * FROM tags
+JOIN gift_certificates_tags gct on tags.id = gct.tag_id
+WHERE tags.id IN (
+SELECT tag_id FROM gift_certificates_tags
+JOIN gift_certificates gc on gc.id = gift_certificates_tags.gift_certificate_id
+WHERE gct.gift_certificate_id = '5bd84a44-194c-4c35-8104-431505d8cef1'
+);
+
+
+     */
 }
