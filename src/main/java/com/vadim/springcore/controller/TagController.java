@@ -57,7 +57,7 @@ public class TagController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<TagResponseDto> putTag(@PathVariable("id") UUID id,
                                                  @RequestBody TagRequestDto requestDto) {
-        TagResponseDto tagResponseDto = service.update(requestDto);
+        TagResponseDto tagResponseDto = service.update(id, requestDto);
 
         return ApiResponseDto.successApiResponse(
                 "Tag with id = " + tagResponseDto.getId() + " was successfully updated",

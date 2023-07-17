@@ -14,7 +14,7 @@ public interface TagService {
 
     TagResponseDto save(TagRequestDto requestDto);
 
-    TagResponseDto update(TagRequestDto requestDto);
+    TagResponseDto update(UUID id, TagRequestDto requestDto);
 
     void deleteById(UUID id);
 }
