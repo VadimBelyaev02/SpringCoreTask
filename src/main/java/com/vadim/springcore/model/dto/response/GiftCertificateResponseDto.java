@@ -33,4 +33,6 @@ public class GiftCertificateResponseDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonSerialize(using = ToStringSerializer.class)
     private Instant lastUpdateDate;
+
+    private String description;
 }
