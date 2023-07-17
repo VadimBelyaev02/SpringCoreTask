@@ -97,7 +97,7 @@ public class GiftCertificateController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<GiftCertificateResponseDto> putGiftCertificate(@PathVariable("id") UUID id,
-                                                         @RequestBody GiftCertificateRequestDto requestDto) {
+                                                         @RequestBody @Valid GiftCertificateRequestDto requestDto) {
         GiftCertificateResponseDto responseDto = service.update(id, requestDto);
         return ApiResponseDto.<GiftCertificateResponseDto>builder()
                 .data(responseDto)
