@@ -36,6 +36,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final TagDao tagDao;
 
     @Override
+    @Transactional(readOnly = true)
     public GiftCertificateResponseDto getById(UUID id) {
         GiftCertificate giftCertificate = giftCertificateDao.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id))
@@ -44,6 +45,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GiftCertificateResponseDto> getAll() {
         return giftCertificateDao.findAll().stream()
                 .map(mapper::toResponseDto)
@@ -61,15 +63,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         savedGiftCertificate.setTags(giftCertificate.getTags());
 
         saveTags(giftCertificate.getTags(), savedGiftCertificate.getId());
-//        giftCertificate.getTags().forEach(
-//                tag -> {
-//                    tag = tagDao.saveIfNotExists(tag);
-//                    giftCertificateTagDao.save(new GiftCertificateTag(new GiftCertificateTagId(savedGiftCertificate.getId(), tag.getId())));
-//                }
-//        );
         return mapper.toResponseDto(savedGiftCertificate);
     }
-
 
     private void saveTags(List<Tag> tags, UUID giftCertificateId) {
         tags.forEach(
@@ -78,12 +73,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     giftCertificateTagDao.save(new GiftCertificateTag(new GiftCertificateTagId(giftCertificateId, tag.getId())));
                 }
         );
-
     }
 
     @Override
     @Transactional
-
     public GiftCertificateResponseDto update(UUID id, GiftCertificateRequestDto requestDto) {
         GiftCertificate giftCertificate = giftCertificateDao.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id))
@@ -102,10 +95,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (!giftCertificateDao.existsById(id)) {
             throw new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id));
         }
+        giftCertificateTagDao.deleteByGiftCertificateId(id);
         giftCertificateDao.deleteById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GiftCertificateResponseDto> getAllByCriteria(GiftCertificateCriteria criteria) {
         List<List<GiftCertificate>> lists = new ArrayList<>();
 
