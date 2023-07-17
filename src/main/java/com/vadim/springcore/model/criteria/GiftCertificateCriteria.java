@@ -1,5 +1,6 @@
 package com.vadim.springcore.model.criteria;
 
+import com.vadim.springcore.model.criteria.enums.SortType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,6 +11,6 @@ public class GiftCertificateCriteria {
     private String tagName;
     private String partOfDescription;
     private String partOfTagName;
-    private String sortByDate;
-    private String sortByName;
+    private SortType sortByDate;
+    private SortType sortByName;
 }

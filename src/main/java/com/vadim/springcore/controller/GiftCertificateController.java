@@ -1,6 +1,7 @@
 package com.vadim.springcore.controller;
 
 import com.vadim.springcore.model.criteria.GiftCertificateCriteria;
+import com.vadim.springcore.model.criteria.enums.SortType;
 import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.model.dto.response.ApiResponseDto;
 import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
@@ -54,16 +55,16 @@ public class GiftCertificateController {
     public ApiResponseDto<List<GiftCertificateResponseDto>> getAllGiftCertificatesByCriteria(
         @RequestParam(value = "tagName", required = false) String tagName,
         @RequestParam(value = "sortByName", required = false) String sortByName,
-        @RequestParam(value = "sortByDate", required = false) String sortByDate,
-        @RequestParam(value = "partOfDescription", required = false) String partOfDescription,
-        @RequestParam(value = "partOfTagName", required = false) String partOfTagName
+        @RequestParam(value = "sortByDate", required = false, defaultValue = "NONE") String sortByDate,
+        @RequestParam(value = "partDescription", required = false, defaultValue = "NONE") String partOfDescription,
+        @RequestParam(value = "partTagName", required = false) String partOfTagName
     ) {
         GiftCertificateCriteria criteria = GiftCertificateCriteria.builder()
                 .tagName(tagName)
-                .sortByDate(sortByDate)
+                .sortByDate(SortType.valueOf(sortByDate))
                 .partOfDescription(partOfDescription)
                 .partOfTagName(partOfTagName)
-                .sortByName(sortByName)
+                .sortByName(SortType.valueOf(sortByName))
                 .build();
         List<GiftCertificateResponseDto> responseDtos = service.getAllByCriteria(criteria);
 
