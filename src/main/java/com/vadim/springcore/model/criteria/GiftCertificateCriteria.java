@@ -1,4 +1,4 @@
-package com.vadim.springcore.criteria;
+package com.vadim.springcore.model.criteria;
 
 import lombok.Builder;
 import lombok.Getter;

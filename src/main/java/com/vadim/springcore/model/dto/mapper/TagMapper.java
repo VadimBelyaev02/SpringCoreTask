@@ -1,10 +1,9 @@
-package com.vadim.springcore.dto.mapper;
+package com.vadim.springcore.model.dto.mapper;
 
-import com.vadim.springcore.dto.request.TagRequestDto;
-import com.vadim.springcore.dto.response.TagResponseDto;
-import com.vadim.springcore.entity.Tag;
+import com.vadim.springcore.model.dto.request.TagRequestDto;
+import com.vadim.springcore.model.dto.response.TagResponseDto;
+import com.vadim.springcore.model.entity.Tag;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.vadim.springcore.service;
 
-import com.vadim.springcore.dto.request.TagRequestDto;
-import com.vadim.springcore.dto.response.TagResponseDto;
+import com.vadim.springcore.model.dto.request.TagRequestDto;
+import com.vadim.springcore.model.dto.response.TagResponseDto;
 
 import java.util.List;
 import java.util.UUID;

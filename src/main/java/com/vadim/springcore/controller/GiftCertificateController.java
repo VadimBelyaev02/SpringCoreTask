@@ -1,16 +1,13 @@
 package com.vadim.springcore.controller;
 
-import com.vadim.springcore.criteria.GiftCertificateCriteria;
-import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
-import com.vadim.springcore.dto.response.ApiResponseDto;
-import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
+import com.vadim.springcore.model.criteria.GiftCertificateCriteria;
+import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
+import com.vadim.springcore.model.dto.response.ApiResponseDto;
+import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
 import com.vadim.springcore.service.GiftCertificateService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

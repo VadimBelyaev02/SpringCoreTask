@@ -1,16 +1,16 @@
 package com.vadim.springcore.service.impl;
 
-import com.vadim.springcore.criteria.GiftCertificateCriteria;
+import com.vadim.springcore.model.criteria.GiftCertificateCriteria;
 import com.vadim.springcore.dao.GiftCertificateDao;
 import com.vadim.springcore.dao.GiftCertificateTagDao;
 import com.vadim.springcore.dao.TagDao;
-import com.vadim.springcore.dto.mapper.GiftCertificateMapper;
-import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
-import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
-import com.vadim.springcore.entity.GiftCertificate;
-import com.vadim.springcore.entity.GiftCertificateTag;
-import com.vadim.springcore.entity.GiftCertificateTagId;
-import com.vadim.springcore.entity.Tag;
+import com.vadim.springcore.model.dto.mapper.GiftCertificateMapper;
+import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
+import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
+import com.vadim.springcore.model.entity.GiftCertificate;
+import com.vadim.springcore.model.entity.GiftCertificateTag;
+import com.vadim.springcore.model.entity.GiftCertificateTagId;
+import com.vadim.springcore.model.entity.Tag;
 import com.vadim.springcore.exception.NotFoundException;
 import com.vadim.springcore.service.GiftCertificateService;
 import lombok.RequiredArgsConstructor;

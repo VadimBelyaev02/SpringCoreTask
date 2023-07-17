@@ -1,4 +1,4 @@
-package com.vadim.springcore.dto.converter;
+package com.vadim.springcore.model.dto.converter;
 
 import org.springframework.stereotype.Component;
 

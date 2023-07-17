@@ -1,15 +1,14 @@
 package com.vadim.springcore.controller;
 
-import com.vadim.springcore.dto.request.TagRequestDto;
-import com.vadim.springcore.dto.response.ApiResponseDto;
-import com.vadim.springcore.dto.response.TagResponseDto;
+import com.vadim.springcore.model.dto.request.TagRequestDto;
+import com.vadim.springcore.model.dto.response.ApiResponseDto;
+import com.vadim.springcore.model.dto.response.TagResponseDto;
 import com.vadim.springcore.service.TagService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

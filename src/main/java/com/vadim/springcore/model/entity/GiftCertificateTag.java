@@ -1,4 +1,4 @@
-package com.vadim.springcore.entity;
+package com.vadim.springcore.model.entity;
 
 import lombok.*;
 

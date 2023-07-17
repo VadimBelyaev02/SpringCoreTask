@@ -1,8 +1,8 @@
 package com.vadim.springcore.dao.impl;
 
 import com.vadim.springcore.dao.GiftCertificateTagDao;
-import com.vadim.springcore.entity.GiftCertificateTag;
-import com.vadim.springcore.entity.GiftCertificateTagId;
+import com.vadim.springcore.model.entity.GiftCertificateTag;
+import com.vadim.springcore.model.entity.GiftCertificateTagId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.vadim.springcore.dto.request;
+package com.vadim.springcore.model.dto.request;
 
 
 import jakarta.validation.constraints.NotBlank;

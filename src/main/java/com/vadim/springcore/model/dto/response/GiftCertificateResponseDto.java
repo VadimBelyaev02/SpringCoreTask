@@ -1,4 +1,4 @@
-package com.vadim.springcore.dto.response;
+package com.vadim.springcore.model.dto.response;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

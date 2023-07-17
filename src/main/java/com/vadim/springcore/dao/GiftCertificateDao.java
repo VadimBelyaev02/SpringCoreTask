@@ -1,6 +1,6 @@
 package com.vadim.springcore.dao;
 
-import com.vadim.springcore.entity.GiftCertificate;
+import com.vadim.springcore.model.entity.GiftCertificate;
 
 import java.util.List;
 import java.util.UUID;

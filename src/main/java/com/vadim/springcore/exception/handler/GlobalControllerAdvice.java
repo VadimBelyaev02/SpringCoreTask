@@ -1,9 +1,8 @@
 package com.vadim.springcore.exception.handler;
 
-import com.vadim.springcore.dto.response.ApiResponseDto;
+import com.vadim.springcore.model.dto.response.ApiResponseDto;
 import com.vadim.springcore.exception.DuplicateRecordException;
 import com.vadim.springcore.exception.NotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.Instant;
-import java.util.Optional;
 
 @RestControllerAdvice
 public class GlobalControllerAdvice {

@@ -1,7 +1,7 @@
 package com.vadim.springcore.dao.impl;
 
 import com.vadim.springcore.dao.TagDao;
-import com.vadim.springcore.entity.Tag;
+import com.vadim.springcore.model.entity.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

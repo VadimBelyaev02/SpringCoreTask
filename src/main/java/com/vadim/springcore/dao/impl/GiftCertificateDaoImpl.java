@@ -1,24 +1,17 @@
 package com.vadim.springcore.dao.impl;
 
 import com.vadim.springcore.dao.GiftCertificateDao;
-import com.vadim.springcore.entity.GiftCertificate;
-import com.vadim.springcore.entity.Tag;
+import com.vadim.springcore.model.entity.GiftCertificate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Repository

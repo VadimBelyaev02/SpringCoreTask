@@ -1,7 +1,7 @@
 package com.vadim.springcore.service.impl;
 
-import com.vadim.springcore.dto.request.TagRequestDto;
-import com.vadim.springcore.dto.response.TagResponseDto;
+import com.vadim.springcore.model.dto.request.TagRequestDto;
+import com.vadim.springcore.model.dto.response.TagResponseDto;
 import com.vadim.springcore.service.TagService;
 import org.springframework.stereotype.Service;
 

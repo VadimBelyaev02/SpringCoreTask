@@ -1,11 +1,10 @@
-package com.vadim.springcore.dto.mapper;
+package com.vadim.springcore.model.dto.mapper;
 
-import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
-import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
-import com.vadim.springcore.entity.GiftCertificate;
+import com.vadim.springcore.model.entity.GiftCertificate;
+import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
+import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
 @Mapper(uses = TagMapper.class)

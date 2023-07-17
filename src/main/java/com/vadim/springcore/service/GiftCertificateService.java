@@ -1,8 +1,8 @@
 package com.vadim.springcore.service;
 
-import com.vadim.springcore.criteria.GiftCertificateCriteria;
-import com.vadim.springcore.dto.request.GiftCertificateRequestDto;
-import com.vadim.springcore.dto.response.GiftCertificateResponseDto;
+import com.vadim.springcore.model.criteria.GiftCertificateCriteria;
+import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
+import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
 
 import java.util.List;
 import java.util.UUID;

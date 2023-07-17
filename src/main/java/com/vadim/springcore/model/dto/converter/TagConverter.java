@@ -1,8 +1,8 @@
-package com.vadim.springcore.dto.converter;
+package com.vadim.springcore.model.dto.converter;
 
-import com.vadim.springcore.dto.request.TagRequestDto;
-import com.vadim.springcore.dto.response.TagResponseDto;
-import com.vadim.springcore.entity.Tag;
+import com.vadim.springcore.model.entity.Tag;
+import com.vadim.springcore.model.dto.request.TagRequestDto;
+import com.vadim.springcore.model.dto.response.TagResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
