@@ -52,7 +52,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public Optional<GiftCertificate> findById(UUID id) {
         final String SQL_FIND_BY_ID = "SELECT * FROM gift_certificates WHERE id = ?";
-        return template.query(SQL_FIND_BY_ID, mapper, id).stream().findFirst();
+        return template.query(SQL_FIND_BY_ID, mapper, id).stream()
+                .findFirst();
     }
 
     @Override
