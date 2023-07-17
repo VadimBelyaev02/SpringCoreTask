@@ -28,8 +28,8 @@ public class GiftCertificateTagDaoImpl implements GiftCertificateTagDao {
 
     @Override
     public GiftCertificateTag save(GiftCertificateTag giftCertificateTag) {
-        final String SQL_INSERT_GIFT_CERTIFICATE_TAG = "INSERT INTO gift_certificates_tags (gift_certificate_id, tag_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
-//        int rowAffected = template.update(SQL_INSERT, giftCertificateTag.getId().getGiftCertificateId(), giftCertificateTag.getId().getTagId());
+        final String SQL_INSERT = "INSERT INTO gift_certificates_tags (gift_certificate_id, tag_id) VALUES (?, ?)";
+        int rowAffected = template.update(SQL_INSERT, giftCertificateTag.getId().getGiftCertificateId(), giftCertificateTag.getId().getTagId());
 
         return giftCertificateTag;
     }
