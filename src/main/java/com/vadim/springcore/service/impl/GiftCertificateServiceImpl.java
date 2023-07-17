@@ -1,12 +1,11 @@
 package com.vadim.springcore.service.impl;
 
-import com.vadim.springcore.model.criteria.ComparatorUtil;
-import com.vadim.springcore.model.criteria.GiftCertificateCriteria;
 import com.vadim.springcore.dao.GiftCertificateDao;
 import com.vadim.springcore.dao.GiftCertificateTagDao;
 import com.vadim.springcore.dao.TagDao;
-import com.vadim.springcore.model.criteria.enums.SortField;
-import com.vadim.springcore.model.criteria.enums.SortType;
+import com.vadim.springcore.exception.NotFoundException;
+import com.vadim.springcore.model.criteria.ComparatorUtil;
+import com.vadim.springcore.model.criteria.GiftCertificateCriteria;
 import com.vadim.springcore.model.dto.mapper.GiftCertificateMapper;
 import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
@@ -14,14 +13,16 @@ import com.vadim.springcore.model.entity.GiftCertificate;
 import com.vadim.springcore.model.entity.GiftCertificateTag;
 import com.vadim.springcore.model.entity.GiftCertificateTagId;
 import com.vadim.springcore.model.entity.Tag;
-import com.vadim.springcore.exception.NotFoundException;
 import com.vadim.springcore.service.GiftCertificateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.vadim.springcore.utils.constants.GiftCertificateConstants.GIFT_CERTIFICATE_NOT_FOUND_BY_ID;
@@ -57,7 +58,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateResponseDto save(GiftCertificateRequestDto requestDto) {
         GiftCertificate giftCertificate = mapper.toEntity(requestDto);
         giftCertificate.setCreateDate(Instant.now());
-        giftCertificate.setLastUpdateDate(Instant.now());
+        giftCertificate.setLastUpdateDate(giftCertificate.getCreateDate());
 
         final GiftCertificate savedGiftCertificate = giftCertificateDao.save(giftCertificate);
         savedGiftCertificate.setTags(giftCertificate.getTags());
@@ -67,12 +68,14 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     private void saveTags(List<Tag> tags, UUID giftCertificateId) {
-        tags.forEach(
-                tag -> {
-                    tag = tagDao.saveIfNotExists(tag);
-                    giftCertificateTagDao.save(new GiftCertificateTag(new GiftCertificateTagId(giftCertificateId, tag.getId())));
-                }
-        );
+        if (Objects.nonNull(tags)) {
+            tags.forEach(
+                    tag -> {
+                        tag = tagDao.saveIfNotExists(tag);
+                        giftCertificateTagDao.save(new GiftCertificateTag(new GiftCertificateTagId(giftCertificateId, tag.getId())));
+                    }
+            );
+        }
     }
 
     @Override
@@ -113,7 +116,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (Objects.nonNull(criteria.getPartOfDescription())) {
             lists.add(giftCertificateDao.findAllLikeDescription(criteria.getPartOfDescription()));
         }
-
+        // it's not conjunction, needs to be rewritten
         return lists.stream()
                 .flatMap(List::stream).toList()
                 .stream()
