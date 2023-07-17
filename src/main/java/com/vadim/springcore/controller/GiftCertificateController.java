@@ -1,6 +1,7 @@
 package com.vadim.springcore.controller;
 
 import com.vadim.springcore.model.criteria.GiftCertificateCriteria;
+import com.vadim.springcore.model.criteria.enums.SortField;
 import com.vadim.springcore.model.criteria.enums.SortType;
 import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.model.dto.response.ApiResponseDto;
@@ -54,17 +55,21 @@ public class GiftCertificateController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<List<GiftCertificateResponseDto>> getAllGiftCertificatesByCriteria(
         @RequestParam(value = "tagName", required = false) String tagName,
-        @RequestParam(value = "sortByName", required = false) String sortByName,
-        @RequestParam(value = "sortByDate", required = false, defaultValue = "NONE") String sortByDate,
-        @RequestParam(value = "partDescription", required = false, defaultValue = "NONE") String partOfDescription,
+        @RequestParam(value = "firstSortBy", required = false, defaultValue = "NONE") String firstSortBy,
+        @RequestParam(value = "secondSortBy", required = false, defaultValue = "NONE") String secondSortBy,
+        @RequestParam(value = "firstSortType", required = false, defaultValue = "NONE") String firstSortType,
+        @RequestParam(value = "secondSortType", required = false, defaultValue = "NONE") String secondSortType,
+        @RequestParam(value = "partDescription", required = false) String partOfDescription,
         @RequestParam(value = "partTagName", required = false) String partOfTagName
     ) {
         GiftCertificateCriteria criteria = GiftCertificateCriteria.builder()
                 .tagName(tagName)
-                .sortByDate(SortType.valueOf(sortByDate))
                 .partOfDescription(partOfDescription)
                 .partOfTagName(partOfTagName)
-                .sortByName(SortType.valueOf(sortByName))
+                .firstSortType(SortType.valueOf(firstSortType))
+                .firstSortBy(SortField.valueOf(firstSortBy))
+                .secondSortBy(SortField.valueOf(secondSortBy))
+                .secondSortType(SortType.valueOf(secondSortType))
                 .build();
         List<GiftCertificateResponseDto> responseDtos = service.getAllByCriteria(criteria);
 
