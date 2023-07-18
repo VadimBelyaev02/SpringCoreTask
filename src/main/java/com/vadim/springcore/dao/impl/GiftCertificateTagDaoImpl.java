@@ -72,4 +72,10 @@ public class GiftCertificateTagDaoImpl implements GiftCertificateTagDao {
         final String SQL = "DELETE FROM gift_certificates_tags WHERE gift_certificate_id = ?";
         int rowAffected = template.update(SQL, id);
     }
+
+    @Override
+    public void deleteByTagId(UUID id) {
+        final String SQL = "DELETE FROM gift_certificates_tags WHERE tag_id = ?";
+        int rowAffected = template.update(SQL, id);
+    }
 }

@@ -77,15 +77,15 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public boolean existsById(UUID id) {
-        final String SQL_FIND_BY_ID = "SELECT * FROM tags WHERE id = ?";
-        return template.query(SQL_FIND_BY_ID, mapper, id).size() > 0;
+        final String SQL = "SELECT * FROM tags WHERE id = ?";
+        return template.query(SQL, mapper, id).size() > 0;
     }
 
 
     @Override
     public Tag saveIfNotExists(Tag tag) {
-        final String SQL_SELECT = "SELECT * FROM tags WHERE name = ?";
-        Optional<Tag> optionalTag = template.query(SQL_SELECT, mapper, tag.getName()).stream().findFirst();
+        final String SQL = "SELECT * FROM tags WHERE name = ?";
+        Optional<Tag> optionalTag = template.query(SQL, mapper, tag.getName()).stream().findFirst();
         return optionalTag.orElseGet(() -> save(tag));
     }
 
@@ -112,5 +112,4 @@ WHERE gct.gift_certificate_id = '5bd84a44-194c-4c35-8104-431505d8cef1'
         final String SQL = "SELECT * FROM tags WHERE name = ?";
         return template.query(SQL, mapper, name).size() > 0;
     }
-
 }

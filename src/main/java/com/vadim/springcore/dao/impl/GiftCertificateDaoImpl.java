@@ -94,7 +94,6 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public void deleteById(UUID id) {
         final String SQL = "DELETE FROM gift_certificates WHERE id = ?";
-
         int rowAffected = template.update(SQL, id);
     }
 
