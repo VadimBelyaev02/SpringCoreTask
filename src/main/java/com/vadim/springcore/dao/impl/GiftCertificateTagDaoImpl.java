@@ -39,35 +39,32 @@ public class GiftCertificateTagDaoImpl implements GiftCertificateTagDao {
 
     @Override
     public Optional<GiftCertificateTag> findById(GiftCertificateTagId id) {
-        final String SQL_FIND_BY_ID = "SELECT * FROM gift_certificates_tags WHERE gift_certificate_id = ? AND tag_id = ?";
-        return template.query(SQL_FIND_BY_ID, mapper, id.getGiftCertificateId(), id.getTagId()).stream()
+        final String SQL = "SELECT * FROM gift_certificates_tags WHERE gift_certificate_id = ? AND tag_id = ?";
+        return template.query(SQL, mapper, id.getGiftCertificateId(), id.getTagId()).stream()
                 .findFirst();
     }
 
     @Override
     public GiftCertificateTag save(GiftCertificateTag giftCertificateTag) {
-        final String SQL_INSERT = "INSERT INTO gift_certificates_tags (gift_certificate_id, tag_id) VALUES (?, ?)";
-        int rowAffected = template.update(SQL_INSERT, giftCertificateTag.getId().getGiftCertificateId(), giftCertificateTag.getId().getTagId());
+        final String SQL = "INSERT INTO gift_certificates_tags (gift_certificate_id, tag_id) VALUES (?, ?)";
+        int rowAffected = template.update(SQL, giftCertificateTag.getId().getGiftCertificateId(), giftCertificateTag.getId().getTagId());
 
         return giftCertificateTag;
     }
 
     @Override
     public GiftCertificateTag update(GiftCertificateTag giftCertificateTag) {
-        return null;
+        final String SQL = "UPDATE gift_certificates_tags SET gift_certificate_id = ?, tag_id = ? WHERE gift_certificate_id = ? AND tag_id = ?";
+        UUID giftCertificateId = giftCertificateTag.getId().getGiftCertificateId();
+        UUID tagId = giftCertificateTag.getId().getTagId();
+        int rowAffected = template.update(SQL, giftCertificateId, tagId, giftCertificateId, tagId);
+        return giftCertificateTag;
     }
 
     @Override
     public void deleteById(GiftCertificateTagId id) {
-        final String SQL_DELETE_BY_ID = "DELETE FROM gift_certificates_tags WHERE gift_certificate_id = ? AND tag_id = ?";
-        int rowAffected = template.update(SQL_DELETE_BY_ID, id.getGiftCertificateId(), id.getGiftCertificateId());
-    }
-
-    @Override
-    public void saveBatch(List<GiftCertificateTag> giftCertificateTags) {
-        giftCertificateTags.forEach(
-                this::save
-        );
+        final String SQL = "DELETE FROM gift_certificates_tags WHERE gift_certificate_id = ? AND tag_id = ?";
+        int rowAffected = template.update(SQL, id.getGiftCertificateId(), id.getGiftCertificateId());
     }
 
     @Override

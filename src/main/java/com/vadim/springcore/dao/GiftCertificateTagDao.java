@@ -8,7 +8,5 @@ import java.util.UUID;
 
 public interface GiftCertificateTagDao extends CrudDao<GiftCertificateTag, GiftCertificateTagId> {
 
-    void saveBatch(List<GiftCertificateTag> giftCertificateTags);
-
     void deleteByGiftCertificateId(UUID id);
 }
