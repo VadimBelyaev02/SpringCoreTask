@@ -1,5 +1,6 @@
 package com.vadim.springcore.config;
 
+import com.zaxxer.hikari.HikariConfig;
 import liquibase.integration.spring.SpringLiquibase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +29,20 @@ public class ApplicationConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUsername(environment.getRequiredProperty("db.username"));
-        dataSource.setPassword(environment.getRequiredProperty("db.password"));
-        dataSource.setDriverClassName(environment.getRequiredProperty("db.driverClassName"));
-        dataSource.setUrl(environment.getRequiredProperty("db.url"));
-        return dataSource;
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(environment.getRequiredProperty("db.url"));
+        hikariConfig.setPassword(environment.getRequiredProperty("db.password"));
+        hikariConfig.setUsername(environment.getRequiredProperty("db.username"));
+        hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "512");
+        return hikariConfig.getDataSource();
+
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setUsername(environment.getRequiredProperty("db.username"));
+//        dataSource.setPassword(environment.getRequiredProperty("db.password"));
+//        dataSource.setDriverClassName(environment.getRequiredProperty("db.driverClassName"));
+//        dataSource.setUrl(environment.getRequiredProperty("db.url"));
+//        return dataSource;
     }
 
     @Bean
