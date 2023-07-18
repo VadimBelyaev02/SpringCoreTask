@@ -199,6 +199,7 @@ public class TagUnitTest {
     @DisplayName("Deleting tags tests")
     class DeleteTagTest {
         @Test
+        @DisplayName("Delete tag by id")
         void Given_TagId_When_DeletingExistingTag_Then_TagIsDeleted() {
             when(tagDao.existsById(id)).thenReturn(true);
             doNothing().when(tagDao).deleteById(id);
@@ -213,6 +214,7 @@ public class TagUnitTest {
         }
 
         @Test
+        @DisplayName("Delete tag that id not found by id")
         void Given_TagId_When_DeletingNotExistingTag_Then_NotFoundExceptionIsThrown() {
             when(tagDao.existsById(id)).thenReturn(false);
 
