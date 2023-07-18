@@ -64,7 +64,7 @@ public class TagServiceImpl implements TagService {
                 new NotFoundException(String.format(TAG_NOT_FOUND_BY_ID, id))
         );
         mapper.updateTagFromDto(requestDto, tag);
-        return mapper.toResponseDto(dao.save(tag));
+        return mapper.toResponseDto(dao.update(tag));
     }
 
     @Override
