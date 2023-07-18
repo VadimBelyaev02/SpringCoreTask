@@ -15,9 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class GiftCertificate {
 
-//    @Id
-//    @GeneratedValue(generator = "UUID")
-//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     private String name;
     private BigDecimal price;

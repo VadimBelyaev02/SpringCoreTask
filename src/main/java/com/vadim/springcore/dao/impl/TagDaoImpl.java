@@ -65,7 +65,6 @@ public class TagDaoImpl implements TagDao {
         final String SQL = "UPDATE tags SET name = ? WHERE id = ?";
 
         int rowAffected = template.update(SQL, tag.getName(), tag.getId());
-
         return tag;
     }
 
