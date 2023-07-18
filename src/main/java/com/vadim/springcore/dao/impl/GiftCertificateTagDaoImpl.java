@@ -69,4 +69,10 @@ public class GiftCertificateTagDaoImpl implements GiftCertificateTagDao {
                 this::save
         );
     }
+
+    @Override
+    public void deleteByGiftCertificateId(UUID id) {
+        final String SQL = "DELETE FROM gift_certificates_tags WHERE gift_certificate_id = ?";
+        int rowAffected = template.update(SQL, id);
+    }
 }
