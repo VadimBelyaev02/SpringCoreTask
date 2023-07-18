@@ -5,12 +5,11 @@ import com.vadim.springcore.model.dto.request.TagRequestDto;
 import com.vadim.springcore.model.dto.response.TagResponseDto;
 import com.vadim.springcore.model.entity.GiftCertificate;
 import com.vadim.springcore.model.entity.Tag;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper
+@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TagMapper {
 
     Tag toEntity(TagRequestDto dto);
@@ -19,6 +18,7 @@ public interface TagMapper {
 
     List<Tag> tagRequestDtoListToTagList(List<TagRequestDto> tagRequestDtos);
 
+    @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateTagFromDto(TagRequestDto requestDto, @MappingTarget Tag tag);
 
 }

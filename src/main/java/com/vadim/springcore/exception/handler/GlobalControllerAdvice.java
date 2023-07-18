@@ -41,6 +41,6 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler({DuplicateRecordException.class})
     public ResponseEntity<ApiResponseDto<?>> handleDuplicateRecordException(DuplicateRecordException exception) {
-
+        return null;
     }
 }
