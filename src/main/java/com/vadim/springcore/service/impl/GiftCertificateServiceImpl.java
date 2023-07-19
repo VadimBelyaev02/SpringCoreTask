@@ -88,8 +88,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificate.setLastUpdateDate(Instant.now());
 
         saveTags(giftCertificate.getTags(), giftCertificate.getId());
+        GiftCertificate updatedGiftCertificate = giftCertificateDao.update(giftCertificate);
+        updatedGiftCertificate.setTags(tagDao.findAllByGiftCertificateId(updatedGiftCertificate.getId()));
 
-        return mapper.toResponseDto(giftCertificateDao.update(giftCertificate));
+        return mapper.toResponseDto(updatedGiftCertificate);
     }
 
     @Override
