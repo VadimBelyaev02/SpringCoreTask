@@ -14,12 +14,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +28,7 @@ import static org.mockito.Mockito.*;
 
 @DisplayName("Tag unit tests")
 @ExtendWith(MockitoExtension.class)
-public class TagUnitTest {
+public class TagServiceUnitTest {
 
     @Mock
     private GiftCertificateTagDao giftCertificateTagDao;
@@ -109,7 +106,7 @@ public class TagUnitTest {
             assertEquals(tagResponseDtos, service.getAll());
 
             verify(tagDao, only()).findAll();
-            verify(mapper, times(2)).toResponseDto(any());
+            verify(mapper, times(2)).toResponseDto(tag);
             verifyNoMoreInteractions(mapper);
         }
     }
@@ -210,7 +207,6 @@ public class TagUnitTest {
             verify(tagDao, times(1)).existsById(id);
             verify(tagDao, times(1)).deleteById(id);
             verify(giftCertificateTagDao, only()).deleteByTagId(id);
-            verifyNoMoreInteractions(tagDao);
         }
 
         @Test
@@ -222,6 +218,7 @@ public class TagUnitTest {
 
             verify(tagDao, only()).existsById(id);
             verifyNoInteractions(giftCertificateTagDao);
+            verifyNoMoreInteractions(tagDao);
         }
     }
 }
