@@ -18,7 +18,8 @@ public interface TagMapper {
 
     List<Tag> tagRequestDtoListToTagList(List<TagRequestDto> tagRequestDtos);
 
-    @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    List<TagResponseDto> tagListToTagResponseDtoList(List<Tag> tags);
+ //   @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateTagFromDto(TagRequestDto requestDto, @MappingTarget Tag tag);
 
 }
