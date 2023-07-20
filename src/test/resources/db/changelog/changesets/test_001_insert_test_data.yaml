@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_test
+      author: VadimBelyaev
+      changes:
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: id
+                #  value: 250ef41b-de69-4973-987d-3e36e1152595
+                  value: ${com.vadim.springcore.util.constants.TagTestConstants.ID}
+              - column:
+                  name: name
+                  value: name1
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: id
+                  value: e954e73a-e735-44bc-b117-a4a26439b80d
+              - column:
+                  name: name
+                  value: name2
+
+        - insert:
+            tableName: gift_certificates
+            columns:
+              - column:
+                  name: id
+                  value: ea1d28e4-2c1e-4815-ab11-6a02792d34b0
+              - column:
+                  name: name
+                  value: name1
+              - column:
+                  name: price
+                  value: '100'
+              - column:
+                  name: duration
+                  value: '50'
+              - column:
+                  name: create_date
+                  value: '2023-07-15 18:29:43.724'
+              - column:
+                  name: last_update_date
+                  value: '2023-07-16 18:29:43.724'
+              - column:
+                  name: description
+                  value: description1
+
+        - insert:
+            tableName: gift_certificates
+            columns:
+              - column:
+                  name: id
+                  value: 7120a2ad-215a-4c3b-9f5e-f80234c15eba
+              - column:
+                  name: name
+                  value: name2
+              - column:
+                  name: price
+                  value: '1000'
+              - column:
+                  name: duration
+                  value: '500'
+              - column:
+                  name: create_date
+                  value: '2023-07-11 18:29:43.724'
+              - column:
+                  name: last_update_date
+                  value: '2023-07-13 18:29:43.724'
+              - column:
+                  name: description
+                  value: description2
+                  #"{fn TO_TIMESTAMP('2023-07-11 18:29:43')}"

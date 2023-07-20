@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002_test
+      author: VadimBelyaev
+      changes:
+        - sql:
+            sql: CREATE ALIAS IF NOT EXISTS uuid_generate_v4 FOR "com.vadim.springcore.util.generator.UuidH2Generator.generateUuid";
