@@ -4,6 +4,12 @@ import com.vadim.springcore.dao.GiftCertificateDao;
 import com.vadim.springcore.dao.GiftCertificateTagDao;
 import com.vadim.springcore.dao.TagDao;
 import com.vadim.springcore.exception.NotFoundException;
+import com.vadim.springcore.factory.dto.request.GiftCertificateRequestDtoFactory;
+import com.vadim.springcore.factory.dto.request.TagRequestDtoFactory;
+import com.vadim.springcore.factory.dto.response.GiftCertificateResponseDtoFactory;
+import com.vadim.springcore.factory.dto.response.TagResponseDtoFactory;
+import com.vadim.springcore.factory.entity.GiftCertificateFactory;
+import com.vadim.springcore.factory.entity.TagFactory;
 import com.vadim.springcore.model.dto.mapper.GiftCertificateMapper;
 import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.model.dto.request.TagRequestDto;
@@ -29,6 +35,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.ID;
+import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.NAME;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -59,48 +67,10 @@ public class GiftCertificateServiceUnitTest {
 
     @BeforeEach
     void setUp() {
-        id = UUID.randomUUID();
-        String name = "name";
-        BigDecimal price = BigDecimal.valueOf(10);
-        String description = "description";
-        Integer duration = 100;
-        Instant createDate = Instant.MIN;
-        Instant lastUpdateDate = Instant.MAX;
-        Tag tag = new Tag(id, name);
-        TagRequestDto tagRequestDto = new TagRequestDto(name);
-        TagResponseDto tagResponseDto = new TagResponseDto(id, name);
-        List<Tag> tags = Stream.of(tag, tag, tag).toList();
-        List<TagResponseDto> tagResponseDtos = Stream.of(tagResponseDto, tagResponseDto, tagResponseDto).toList();
-        List<TagRequestDto> tagRequestDtos = Stream.of(tagRequestDto, tagRequestDto, tagRequestDto).toList();
-        giftCertificate = GiftCertificate.builder()
-                .id(id)
-                .name(name)
-                .price(price)
-                .tags(tags)
-                .createDate(createDate)
-                .lastUpdateDate(lastUpdateDate)
-                .duration(duration)
-                .description(description)
-                .build();
-
-        requestDto = GiftCertificateRequestDto.builder()
-                .tags(tagRequestDtos)
-                .duration(duration)
-                .description(description)
-                .price(price)
-                .name(name)
-                .build();
-
-        responseDto = GiftCertificateResponseDto.builder()
-                .id(id)
-                .name(name)
-                .duration(duration)
-                .description(description)
-                .createDate(createDate)
-                .lastUpdateDate(lastUpdateDate)
-                .price(price)
-                .tags(tagResponseDtos)
-                .build();
+        id = ID;
+        giftCertificate = GiftCertificateFactory.getTagFactory().getInstance();
+        requestDto = GiftCertificateRequestDtoFactory.getTagFactory().getInstance();
+        responseDto = GiftCertificateResponseDtoFactory.getTagFactory().getInstance();
     }
 
     @Nested
@@ -132,8 +102,9 @@ public class GiftCertificateServiceUnitTest {
         @Test
         @DisplayName("Get all gift certificates")
         void Given_Nothing_When_AllGiftCertificatesAreRequested_Then_AllGiftCertificatesAreReturned() {
-            List<GiftCertificate> giftCertificates = Stream.of(giftCertificate, giftCertificate).toList();
-            List<GiftCertificateResponseDto> responseDtos = Stream.of(responseDto, responseDto).toList();
+            int listSize = 3;
+            List<GiftCertificate> giftCertificates = GiftCertificateFactory.getTagFactory().getInstanceList(listSize);
+            List<GiftCertificateResponseDto> responseDtos = GiftCertificateResponseDtoFactory.getTagFactory().getInstanceList(listSize);
 
             when(dao.findAll()).thenReturn(giftCertificates);
             when(mapper.toResponseDto(any())).thenReturn(responseDto);
@@ -141,7 +112,7 @@ public class GiftCertificateServiceUnitTest {
             assertEquals(responseDtos, service.getAll());
 
             verify(dao, only()).findAll();
-            verify(mapper, times(2)).toResponseDto(giftCertificate);
+            verify(mapper, times(listSize)).toResponseDto(giftCertificate);
             verifyNoMoreInteractions(mapper);
         }
     }
@@ -153,9 +124,8 @@ public class GiftCertificateServiceUnitTest {
         @Test
         @DisplayName("Save gift certificate")
         void Given_GiftCertificateRequestDto_When_SavingGiftCertificate_Then_SavedGiftCertificateIsReturned() {
-            Tag tag = giftCertificate.getTags().get(0);
+            Tag tag = TagFactory.getTagFactory().getInstance();
             GiftCertificateTag giftCertificateTag = new GiftCertificateTag(new GiftCertificateTagId(id, tag.getId()));
-
 
             when(mapper.toEntity(requestDto)).thenReturn(giftCertificate);
             when(dao.save(any())).thenReturn(giftCertificate);
@@ -163,7 +133,6 @@ public class GiftCertificateServiceUnitTest {
             when(tagDao.saveIfNotExists(any())).thenReturn(tag);
             when(giftCertificateTagDao.save(any())).thenReturn(giftCertificateTag);
             when(dao.save(giftCertificate)).thenReturn(giftCertificate);
-            // maybe any()
 
             assertEquals(responseDto, service.save(requestDto));
 
