@@ -1,9 +1,12 @@
-package com.vadim.springcore.unit;
+package com.vadim.springcore.unit.service;
 
 import com.vadim.springcore.dao.GiftCertificateTagDao;
 import com.vadim.springcore.dao.TagDao;
 import com.vadim.springcore.exception.DuplicateRecordException;
 import com.vadim.springcore.exception.NotFoundException;
+import com.vadim.springcore.factory.dto.request.TagRequestDtoFactory;
+import com.vadim.springcore.factory.dto.response.TagResponseDtoFactory;
+import com.vadim.springcore.factory.entity.TagFactory;
 import com.vadim.springcore.model.dto.mapper.TagMapper;
 import com.vadim.springcore.model.dto.request.TagRequestDto;
 import com.vadim.springcore.model.dto.response.TagResponseDto;
@@ -23,13 +26,14 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static com.vadim.springcore.util.constants.TagTestConstants.ID;
+import static com.vadim.springcore.util.constants.TagTestConstants.NAME;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Tag unit tests")
 @ExtendWith(MockitoExtension.class)
 public class TagServiceUnitTest {
-
     @Mock
     private GiftCertificateTagDao giftCertificateTagDao;
 
@@ -49,21 +53,11 @@ public class TagServiceUnitTest {
 
     @BeforeEach
     void setUp() {
-        id = UUID.randomUUID();
-        name = "name";
-        tag = Tag.builder()
-                .id(id)
-                .name(name)
-                .build();
-
-        requestDto = TagRequestDto.builder()
-                .name(name)
-                .build();
-
-        responseDto = TagResponseDto.builder()
-                .id(id)
-                .name(name)
-                .build();
+        id = ID;
+        name = NAME;
+        tag = TagFactory.getTagFactory().getInstance();
+        requestDto = TagRequestDtoFactory.getTagFactory().getInstance();
+        responseDto = TagResponseDtoFactory.getTagFactory().getInstance();
     }
 
     @Nested
@@ -75,12 +69,10 @@ public class TagServiceUnitTest {
             when(tagDao.findById(id)).thenReturn(Optional.of(tag));
             when(mapper.toResponseDto(tag)).thenReturn(responseDto);
 
-            TagResponseDto actualResponseDto = service.getById(id);
+            assertEquals(responseDto, service.getById(id));
 
             verify(tagDao, only()).findById(id);
             verify(mapper, only()).toResponseDto(tag);
-
-            assertEquals(responseDto, actualResponseDto);
         }
 
         @Test
@@ -97,8 +89,9 @@ public class TagServiceUnitTest {
         @Test
         @DisplayName("Get all tags")
         void Given_Nothing_When_AllTagsRequested_Then_AllTagsAreReturned() {
-            List<Tag> tags = Stream.of(tag, tag).toList();
-            List<TagResponseDto> tagResponseDtos = Stream.of(responseDto, responseDto).toList();
+            int listSize = 3;
+            List<Tag> tags = TagFactory.getTagFactory().getInstanceList();
+            List<TagResponseDto> tagResponseDtos = TagResponseDtoFactory.getTagFactory().getInstanceList(listSize);
 
             when(tagDao.findAll()).thenReturn(tags);
             when(mapper.toResponseDto(any())).thenReturn(responseDto);
@@ -106,7 +99,7 @@ public class TagServiceUnitTest {
             assertEquals(tagResponseDtos, service.getAll());
 
             verify(tagDao, only()).findAll();
-            verify(mapper, times(2)).toResponseDto(tag);
+            verify(mapper, times(listSize)).toResponseDto(tag);
             verifyNoMoreInteractions(mapper);
         }
     }
@@ -155,7 +148,6 @@ public class TagServiceUnitTest {
             when(tagDao.findById(id)).thenReturn(Optional.of(tag));
             when(mapper.toResponseDto(tag)).thenReturn(responseDto);
             doNothing().when(mapper).updateTagFromDto(requestDto, tag);
-
 
             assertEquals(responseDto, service.update(id, requestDto));
 
