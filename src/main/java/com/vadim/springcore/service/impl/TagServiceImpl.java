@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.vadim.springcore.utils.constants.TagConstants.TAG_ALREADY_EXISTS_WITH_NAME;
-import static com.vadim.springcore.utils.constants.TagConstants.TAG_NOT_FOUND_BY_ID;
+import static com.vadim.springcore.util.constants.TagConstants.TAG_ALREADY_EXISTS_WITH_NAME;
+import static com.vadim.springcore.util.constants.TagConstants.TAG_NOT_FOUND_BY_ID;
 
 @Service
 @RequiredArgsConstructor
