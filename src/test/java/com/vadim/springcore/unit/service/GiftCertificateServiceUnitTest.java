@@ -1,4 +1,4 @@
-package com.vadim.springcore.unit;
+package com.vadim.springcore.unit.service;
 
 import com.vadim.springcore.dao.GiftCertificateDao;
 import com.vadim.springcore.dao.GiftCertificateTagDao;
