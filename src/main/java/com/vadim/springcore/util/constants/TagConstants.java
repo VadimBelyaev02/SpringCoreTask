@@ -1,4 +1,4 @@
-package com.vadim.springcore.utils.constants;
+package com.vadim.springcore.util.constants;
 
 import lombok.experimental.UtilityClass;
 
