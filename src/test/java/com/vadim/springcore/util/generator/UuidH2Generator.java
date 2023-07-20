@@ -2,9 +2,13 @@ package com.vadim.springcore.util.generator;
 
 import java.util.UUID;
 
-public class UuidH2Generator {
+import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.NoArgGenerator;
+import org.hibernate.id.UUIDGenerator;
 
+public class UuidH2Generator {
     public static String generateUuid() {
-        return UUID.randomUUID().toString();
+        NoArgGenerator generator = Generators.randomBasedGenerator();
+        return generator.generate().toString();
     }
 }
