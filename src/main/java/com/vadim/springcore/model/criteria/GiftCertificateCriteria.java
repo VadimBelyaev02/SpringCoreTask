@@ -5,10 +5,6 @@ import com.vadim.springcore.model.criteria.enums.SortType;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.Instant;
-import java.util.Comparator;
-import java.util.Objects;
-
 @Getter
 @Builder
 public class GiftCertificateCriteria {

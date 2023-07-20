@@ -1,7 +1,6 @@
 package com.vadim.springcore.dao.impl;
 
 import com.vadim.springcore.dao.GiftCertificateTagDao;
-import com.vadim.springcore.model.entity.GiftCertificate;
 import com.vadim.springcore.model.entity.GiftCertificateTag;
 import com.vadim.springcore.model.entity.GiftCertificateTagId;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

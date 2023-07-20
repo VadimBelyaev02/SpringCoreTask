@@ -5,22 +5,21 @@ import com.vadim.springcore.dao.GiftCertificateTagDao;
 import com.vadim.springcore.dao.TagDao;
 import com.vadim.springcore.exception.NotFoundException;
 import com.vadim.springcore.factory.dto.request.GiftCertificateRequestDtoFactory;
-import com.vadim.springcore.factory.dto.request.TagRequestDtoFactory;
 import com.vadim.springcore.factory.dto.response.GiftCertificateResponseDtoFactory;
-import com.vadim.springcore.factory.dto.response.TagResponseDtoFactory;
 import com.vadim.springcore.factory.entity.GiftCertificateFactory;
 import com.vadim.springcore.factory.entity.TagFactory;
 import com.vadim.springcore.model.dto.mapper.GiftCertificateMapper;
 import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
-import com.vadim.springcore.model.dto.request.TagRequestDto;
 import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
-import com.vadim.springcore.model.dto.response.TagResponseDto;
 import com.vadim.springcore.model.entity.GiftCertificate;
 import com.vadim.springcore.model.entity.GiftCertificateTag;
 import com.vadim.springcore.model.entity.GiftCertificateTagId;
 import com.vadim.springcore.model.entity.Tag;
 import com.vadim.springcore.service.impl.GiftCertificateServiceImpl;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -28,16 +27,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.ID;
-import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.NAME;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Gift certificate unit tests")

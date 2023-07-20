@@ -2,9 +2,7 @@ package com.vadim.springcore.factory.dto.response;
 
 import com.vadim.springcore.factory.ModelFactory;
 import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.With;
 
 import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.*;
 //@With

@@ -4,7 +4,6 @@ import com.vadim.springcore.model.criteria.enums.SortField;
 import com.vadim.springcore.model.criteria.enums.SortType;
 import com.vadim.springcore.model.entity.GiftCertificate;
 
-import java.time.Instant;
 import java.util.Comparator;
 import java.util.Objects;
 

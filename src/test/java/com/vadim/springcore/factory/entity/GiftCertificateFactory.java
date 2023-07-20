@@ -2,9 +2,7 @@ package com.vadim.springcore.factory.entity;
 
 import com.vadim.springcore.factory.ModelFactory;
 import com.vadim.springcore.model.entity.GiftCertificate;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.With;
 
 import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.*;
 

@@ -1,8 +1,8 @@
 package com.vadim.springcore.model.dto.mapper;
 
-import com.vadim.springcore.model.entity.GiftCertificate;
 import com.vadim.springcore.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springcore.model.dto.response.GiftCertificateResponseDto;
+import com.vadim.springcore.model.entity.GiftCertificate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
