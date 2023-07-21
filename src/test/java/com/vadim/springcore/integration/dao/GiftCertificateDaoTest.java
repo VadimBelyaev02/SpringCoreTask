@@ -2,21 +2,8 @@ package com.vadim.springcore.integration.dao;
 
 import com.vadim.springcore.config.TestConfig;
 import com.vadim.springcore.dao.GiftCertificateDao;
-import com.vadim.springcore.dao.TagDao;
 import com.vadim.springcore.factory.entity.GiftCertificateFactory;
 import com.vadim.springcore.model.entity.GiftCertificate;
-import com.vadim.springcore.model.entity.GiftCertificateTag;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-import com.vadim.springcore.config.TestConfig;
-import com.vadim.springcore.dao.TagDao;
-import com.vadim.springcore.factory.entity.TagFactory;
-import com.vadim.springcore.model.entity.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.ID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)

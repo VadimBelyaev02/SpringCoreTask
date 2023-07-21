@@ -21,8 +21,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -57,9 +55,6 @@ public class GiftCertificateServiceUnitTest {
     private GiftCertificateResponseDto responseDto;
     private GiftCertificateRequestDto requestDto;
     private UUID id;
-
-    @Captor
-    private ArgumentCaptor<GiftCertificate> captor;
 
     @BeforeEach
     void setUp() {
@@ -132,7 +127,7 @@ public class GiftCertificateServiceUnitTest {
 
             assertEquals(responseDto, service.save(requestDto));
 
-            verify(dao).save(captor.capture());
+            verify(dao).save(any());
             verify(tagDao, times(3)).saveIfNotExists(any());
             verify(giftCertificateTagDao, times(3)).save(any());
             verify(mapper, times(1)).toEntity(requestDto);

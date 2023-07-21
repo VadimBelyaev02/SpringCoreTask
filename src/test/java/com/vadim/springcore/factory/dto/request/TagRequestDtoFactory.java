@@ -5,9 +5,8 @@ import com.vadim.springcore.model.dto.request.TagRequestDto;
 import lombok.NoArgsConstructor;
 
 import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.NAME;
-//@With
+
 @NoArgsConstructor(staticName = "getTagFactory")
-//@AllArgsConstructor
 public class TagRequestDtoFactory implements ModelFactory<TagRequestDto> {
 
     @Override

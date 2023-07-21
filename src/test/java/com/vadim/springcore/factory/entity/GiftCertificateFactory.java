@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 
 import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.*;
 
-//@With
 @NoArgsConstructor(staticName = "getTagFactory")
-//@AllArgsConstructor
 public class GiftCertificateFactory implements ModelFactory<GiftCertificate> {
     @Override
     public GiftCertificate getInstance() {

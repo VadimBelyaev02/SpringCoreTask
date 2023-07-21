@@ -6,10 +6,11 @@ import java.util.List;
 public interface ModelFactory<T> {
 
     Integer defaultListSize = 3;
+
     T getInstance();
 
     default List<T> getInstanceList() {
-        return getInstanceList(3);
+        return getInstanceList(defaultListSize);
     }
 
     default List<T> getInstanceList(Integer size) {

@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 
 import static com.vadim.springcore.util.constants.TagTestConstants.ID;
 import static com.vadim.springcore.util.constants.TagTestConstants.NAME;
-//@With
+
 @NoArgsConstructor(staticName = "getTagFactory")
-//@AllArgsConstructor
 public class TagResponseDtoFactory implements ModelFactory<TagResponseDto> {
     @Override
     public TagResponseDto getInstance() {
