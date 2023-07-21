@@ -16,4 +16,6 @@ public class GiftCertificateTestConstants {
     public static final Integer DURATION = 100;
     public static final Instant CREATE_DATE = Instant.MIN;
     public static final Instant LAST_UPDATE_DATE = Instant.MAX;
+    public static final int NUMBER_OF_GIFT_CERTIFICATES = 3;
+
 }

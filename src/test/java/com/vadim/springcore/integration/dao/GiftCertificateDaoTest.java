@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.vadim.springcore.util.constants.GiftCertificateTestConstants.NUMBER_OF_GIFT_CERTIFICATES;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -26,8 +27,6 @@ public class GiftCertificateDaoTest {
 
     @Autowired
     private GiftCertificateDao dao;
-    private final int numberOfGiftCertificates = 3;
-
     @Test
     void existsByIdTestWithExistingId() {
         GiftCertificate giftCertificate = dao.findAll().get(0);
@@ -65,7 +64,7 @@ giftCertificates.forEach(System.out::println);
 
     @Test
     void findAllTest() {
-        assertEquals(numberOfGiftCertificates, dao.findAll().size());
+        assertEquals(NUMBER_OF_GIFT_CERTIFICATES, dao.findAll().size());
     }
 
     @Test
@@ -95,7 +94,7 @@ giftCertificates.forEach(System.out::println);
         GiftCertificate savedGiftCertificate = dao.save(giftCertificate);
         giftCertificate.setId(savedGiftCertificate.getId());
 
-        assertEquals(numberOfGiftCertificates + 1, dao.findAll().size());
+        assertEquals(NUMBER_OF_GIFT_CERTIFICATES + 1, dao.findAll().size());
         assertEquals(giftCertificate, savedGiftCertificate);
     }
 
@@ -108,7 +107,7 @@ giftCertificates.forEach(System.out::println);
 
         Optional<GiftCertificate> optionalGiftCertificate = dao.findById(giftCertificate.getId());
 
-        assertEquals(numberOfGiftCertificates, dao.findAll().size());
+        assertEquals(NUMBER_OF_GIFT_CERTIFICATES, dao.findAll().size());
         assertTrue(optionalGiftCertificate.isPresent());
         assertEquals(giftCertificate, optionalGiftCertificate.get());
     }
@@ -121,7 +120,7 @@ giftCertificates.forEach(System.out::println);
 
         Optional<GiftCertificate> optionalGiftCertificate = dao.findById(id);
 
-        assertEquals(numberOfGiftCertificates - 1, dao.findAll().size());
+        assertEquals(NUMBER_OF_GIFT_CERTIFICATES - 1, dao.findAll().size());
         assertFalse(optionalGiftCertificate.isPresent());
     }
 }

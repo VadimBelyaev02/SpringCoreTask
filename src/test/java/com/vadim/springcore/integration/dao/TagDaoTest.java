@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.vadim.springcore.util.constants.TagTestConstants.ID;
+import static com.vadim.springcore.util.constants.TagTestConstants.NUMBER_OF_TAGS;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -30,8 +31,6 @@ public class TagDaoTest {
     @Autowired
     private TagDao dao;
 
-    private final int numberOfTags = 4;
-
     @Test
     void saveTestWithNotExistingTag() {
         Tag tag = TagFactory.getTagFactory().getInstance();
@@ -39,7 +38,7 @@ public class TagDaoTest {
         tag.setId(savedTag.getId());
 
         assertEquals(tag, savedTag);
-        assertEquals(numberOfTags + 1, dao.findAll().size());
+        assertEquals(NUMBER_OF_TAGS + 1, dao.findAll().size());
     }
 
     @Test
@@ -51,7 +50,7 @@ public class TagDaoTest {
         tag.setId(savedTag.getId());
 
         assertEquals(tag, savedTag);
-        assertEquals(numberOfTags + 1, dao.findAll().size());
+        assertEquals(NUMBER_OF_TAGS + 1, dao.findAll().size());
     }
 
     @Test
@@ -63,7 +62,7 @@ public class TagDaoTest {
         tag.setId(savedTag.getId());
 
         assertEquals(tag, savedTag);
-        assertEquals(numberOfTags, dao.findAll().size());
+        assertEquals(NUMBER_OF_TAGS, dao.findAll().size());
     }
 
     @Test
@@ -105,7 +104,7 @@ public class TagDaoTest {
 
     @Test
     void findAllTest() {
-        assertEquals(numberOfTags, dao.findAll().size());
+        assertEquals(NUMBER_OF_TAGS, dao.findAll().size());
     }
 
     @Test
@@ -137,7 +136,7 @@ public class TagDaoTest {
         Optional<Tag> optionalTag = dao.findById(id);
 
         assertFalse(optionalTag.isPresent());
-        assertEquals(numberOfTags - 1, dao.findAll().size());
+        assertEquals(NUMBER_OF_TAGS - 1, dao.findAll().size());
     }
 
     @Test
