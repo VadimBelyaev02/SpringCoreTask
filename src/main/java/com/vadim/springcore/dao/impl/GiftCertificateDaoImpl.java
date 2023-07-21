@@ -117,13 +117,9 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findAllLikeTagName(String partOfTagName) {
-        final String SQL = "SELECT gift_certificates.* FROM gift_certificates\n" +
-                "WHERE gift_certificates.id IN (\n" +
-                "    SELECT gift_certificate_id FROM gift_certificates_tags\n" +
-                "    JOIN tags ON tags.id = gift_certificates_tags.tag_id\n" +
-                "    WHERE tags.name ILIKE ?);";
-        return template.query(SQL, mapper, '%' + partOfTagName + '%');
+    public List<GiftCertificate> findAllLikeName(String partOfName) {
+        final String SQL = "SELECT * FROM gift_certificates WHERE name ILIKE ?";
+        return template.query(SQL, mapper, '%' + partOfName + '%');
     }
 
     @Override
