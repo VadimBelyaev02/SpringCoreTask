@@ -10,6 +10,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Builder
 @ToString
 @AllArgsConstructor
