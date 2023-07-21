@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.vadim.springcore.util.constants.GiftCertificateConstants.GIFT_CERTIFICATE_NOT_FOUND_BY_ID;
@@ -107,17 +104,28 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     @Transactional(readOnly = true)
     public List<GiftCertificateResponseDto> getAllByCriteria(GiftCertificateCriteria criteria) {
-        List<List<GiftCertificate>> lists = new ArrayList<>();
+        List<List<GiftCertificate>> lists = new ArrayList<>(3);
+        List<GiftCertificate> list = new ArrayList<>();
 
-        if (Objects.nonNull(criteria.getTagName())) {
-            lists.add(giftCertificateDao.findAllByTagName(criteria.getTagName()));
-        }
-        if (Objects.nonNull(criteria.getPartOfTagName())) {
-            lists.add(giftCertificateDao.findAllLikeName(criteria.getPartOfTagName()));
-        }
-        if (Objects.nonNull(criteria.getPartOfDescription())) {
-            lists.add(giftCertificateDao.findAllLikeDescription(criteria.getPartOfDescription()));
-        }
+//        Optional.ofNullable(criteria.getTagName()).ifPresent(name -> lists.add(giftCertificateDao.findAllByTagName(name)));
+//        Optional.ofNullable(criteria.getPartOfName()).ifPresent(name -> lists.add(giftCertificateDao.findAllLikeName(name)));
+//        Optional.ofNullable(criteria.getPartOfDescription()).ifPresent(descr -> lists.add(giftCertificateDao.findAllLikeDescription(descr)));
+
+        Optional.ofNullable(criteria.getTagName()).ifPresent(name -> list.addAll(giftCertificateDao.findAllByTagName(name)));
+        Optional.ofNullable(criteria.getPartOfName()).ifPresent(name -> list.addAll(giftCertificateDao.findAllLikeName(name)));
+        Optional.ofNullable(criteria.getPartOfDescription()).ifPresent(descr -> list.addAll(giftCertificateDao.findAllLikeDescription(descr)));
+
+
+
+//        if (Objects.nonNull(criteria.getTagName())) {
+//            lists.add(giftCertificateDao.findAllByTagName(criteria.getTagName()));
+//        }
+//        if (Objects.nonNull(criteria.getPartOfName())) {
+//            lists.add(giftCertificateDao.findAllLikeName(criteria.getPartOfName()));
+//        }
+//        if (Objects.nonNull(criteria.getPartOfDescription())) {
+//            lists.add(giftCertificateDao.findAllLikeDescription(criteria.getPartOfDescription()));
+//        }
         // it's not conjunction, needs to be rewritten
         return lists.stream()
                 .flatMap(List::stream).toList()

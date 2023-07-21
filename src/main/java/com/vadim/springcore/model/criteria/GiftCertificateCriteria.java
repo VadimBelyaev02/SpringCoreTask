@@ -11,7 +11,7 @@ public class GiftCertificateCriteria {
 
     private String tagName;
     private String partOfDescription;
-    private String partOfTagName;
+    private String partOfName;
     private SortField firstSortBy;
     private SortField secondSortBy;
     private SortType firstSortType;
