@@ -56,12 +56,12 @@ public class GiftCertificateController {
             @RequestParam(value = "firstSortType", required = false, defaultValue = "NONE") String firstSortType,
             @RequestParam(value = "secondSortType", required = false, defaultValue = "NONE") String secondSortType,
             @RequestParam(value = "partDescription", required = false) String partOfDescription,
-            @RequestParam(value = "partTagName", required = false) String partOfTagName
+            @RequestParam(value = "partName", required = false) String partOfName
     ) {
         GiftCertificateCriteria criteria = GiftCertificateCriteria.builder()
                 .tagName(tagName)
                 .partOfDescription(partOfDescription)
-                .partOfTagName(partOfTagName)
+                .partOfName(partOfName)
                 .firstSortType(SortType.valueOf(firstSortType))
                 .firstSortBy(SortField.valueOf(firstSortBy))
                 .secondSortBy(SortField.valueOf(secondSortBy))
