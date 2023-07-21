@@ -113,7 +113,6 @@ public class GiftCertificateController {
         service.deleteById(id);
 
         return ApiResponseDto.builder()
-                .color(ApiResponseDto.Color.SUCCESS)
                 .timestamp(Instant.now())
                 .message("Gift certificate with id = " + id + " was successfully deleted")
                 .build();
