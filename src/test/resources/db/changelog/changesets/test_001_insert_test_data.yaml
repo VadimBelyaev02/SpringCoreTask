@@ -12,7 +12,7 @@ databaseChangeLog:
                   #value: ${com.vadim.springcore.util.constants.TagTestConstants.ID}
               - column:
                   name: name
-                  value: name1
+                  value: NaMe1
         - insert:
             tableName: tags
             columns:
@@ -21,7 +21,7 @@ databaseChangeLog:
                   value: e954e73a-e735-44bc-b117-a4a26439b80d
               - column:
                   name: name
-                  value: name2
+                  value: qwertynamE2222
         - insert:
             tableName: tags
             columns:
@@ -30,7 +30,7 @@ databaseChangeLog:
                   value: e1132cf1-b1c0-4f64-a155-597df97b08b5
               - column:
                   name: name
-                  value: name3
+                  value: nomtaNae
 
         - insert:
             tableName: tags
@@ -51,7 +51,7 @@ databaseChangeLog:
                  # value: ${com.vadim.springcore.util.constants.GiftCertificateConstants.ID}
               - column:
                   name: name
-                  value: name1
+                  value: NaMe1
               - column:
                   name: price
                   value: '100'
@@ -66,7 +66,7 @@ databaseChangeLog:
                   value: '2023-07-16 18:29:43.724'
               - column:
                   name: description
-                  value: description1
+                  value: notaDesc1
 
         - insert:
             tableName: gift_certificates
@@ -76,7 +76,7 @@ databaseChangeLog:
                   value: 7120a2ad-215a-4c3b-9f5e-f80234c15eba
               - column:
                   name: name
-                  value: name2
+                  value: qwertynamE2222
               - column:
                   name: price
                   value: '1000'
@@ -91,7 +91,7 @@ databaseChangeLog:
                   value: '2023-07-13 18:29:43.724'
               - column:
                   name: description
-                  value: description2
+                  value: emptydescr2
 
         - insert:
             tableName: gift_certificates
@@ -101,7 +101,7 @@ databaseChangeLog:
                   value: 21be96dc-cfa8-4a8c-90eb-fd5be1568024
               - column:
                   name: name
-                  value: name3
+                  value: nomtaNae
               - column:
                   name: price
                   value: '10000'

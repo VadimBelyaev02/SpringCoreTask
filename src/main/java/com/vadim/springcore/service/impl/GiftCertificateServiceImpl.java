@@ -113,7 +113,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             lists.add(giftCertificateDao.findAllByTagName(criteria.getTagName()));
         }
         if (Objects.nonNull(criteria.getPartOfTagName())) {
-            lists.add(giftCertificateDao.findAllLikeTagName(criteria.getPartOfTagName()));
+            lists.add(giftCertificateDao.findAllLikeName(criteria.getPartOfTagName()));
         }
         if (Objects.nonNull(criteria.getPartOfDescription())) {
             lists.add(giftCertificateDao.findAllLikeDescription(criteria.getPartOfDescription()));

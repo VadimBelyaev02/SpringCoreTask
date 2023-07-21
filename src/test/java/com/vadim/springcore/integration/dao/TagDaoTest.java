@@ -57,7 +57,7 @@ public class TagDaoTest {
     @Test
     void saveIfNotExistsTestWithExistingTagByName() {
         Tag tag = TagFactory.getTagFactory().getInstance();
-        tag.setName("name1");
+        tag.setName("NaMe1");
 
         Tag savedTag = dao.saveIfNotExists(tag);
         tag.setId(savedTag.getId());

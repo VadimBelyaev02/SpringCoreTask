@@ -125,16 +125,16 @@ public class GiftCertificateServiceUnitTest {
 
             when(mapper.toEntity(requestDto)).thenReturn(giftCertificate);
             when(dao.save(any())).thenReturn(giftCertificate);
-
             when(tagDao.saveIfNotExists(any())).thenReturn(tag);
             when(giftCertificateTagDao.save(any())).thenReturn(giftCertificateTag);
             when(dao.save(giftCertificate)).thenReturn(giftCertificate);
+            when(mapper.toResponseDto(any())).thenReturn(responseDto);
 
             assertEquals(responseDto, service.save(requestDto));
 
             verify(dao).save(captor.capture());
-            verify(tagDao, times(2)).saveIfNotExists(any());
-            verify(giftCertificateTagDao, times(2)).save(giftCertificateTag);
+            verify(tagDao, times(3)).saveIfNotExists(any());
+            verify(giftCertificateTagDao, times(3)).save(any());
             verify(mapper, times(1)).toEntity(requestDto);
             verify(mapper, times(1)).toResponseDto(giftCertificate);
             verifyNoMoreInteractions(dao, tagDao, giftCertificateTagDao, mapper);
@@ -164,7 +164,7 @@ public class GiftCertificateServiceUnitTest {
             verify(dao, times(1)).findById(id);
             verify(mapper, times(1)).updateGiftCertificateFromDto(requestDto, giftCertificate);
             verify(dao, times(1)).update(giftCertificate);
-            verify(tagDao, times(1)).saveIfNotExists(tag);
+            verify(tagDao, times(3)).saveIfNotExists(tag);
             verify(giftCertificateTagDao, times(3)).save(any());
             verify(tagDao, times(1)).findAllByGiftCertificateId(id);
             verify(mapper, times(1)).toResponseDto(giftCertificate);
