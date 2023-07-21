@@ -8,8 +8,8 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                #  value: 250ef41b-de69-4973-987d-3e36e1152595
-                  value: ${com.vadim.springcore.util.constants.TagTestConstants.ID}
+                  value: 250ef41b-de69-4973-987d-3e36e1152595
+                  #value: ${com.vadim.springcore.util.constants.TagTestConstants.ID}
               - column:
                   name: name
                   value: name1
@@ -22,6 +22,25 @@ databaseChangeLog:
               - column:
                   name: name
                   value: name2
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: id
+                  value: e1132cf1-b1c0-4f64-a155-597df97b08b5
+              - column:
+                  name: name
+                  value: name3
+
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: id
+                  value: 78512969-138e-4a2c-96ff-34b0e302ed08
+              - column:
+                  name: name
+                  value: name4
 
         - insert:
             tableName: gift_certificates
@@ -29,6 +48,7 @@ databaseChangeLog:
               - column:
                   name: id
                   value: ea1d28e4-2c1e-4815-ab11-6a02792d34b0
+                 # value: ${com.vadim.springcore.util.constants.GiftCertificateConstants.ID}
               - column:
                   name: name
                   value: name1
@@ -72,4 +92,58 @@ databaseChangeLog:
               - column:
                   name: description
                   value: description2
-                  #"{fn TO_TIMESTAMP('2023-07-11 18:29:43')}"
+
+        - insert:
+            tableName: gift_certificates
+            columns:
+              - column:
+                  name: id
+                  value: 21be96dc-cfa8-4a8c-90eb-fd5be1568024
+              - column:
+                  name: name
+                  value: name3
+              - column:
+                  name: price
+                  value: '10000'
+              - column:
+                  name: duration
+                  value: '5000'
+              - column:
+                  name: create_date
+                  value: '2023-07-11 18:29:43.724'
+              - column:
+                  name: last_update_date
+                  value: '2023-07-13 20:29:43.724'
+              - column:
+                  name: description
+                  value: description3
+
+        - insert:
+            tableName: gift_certificates_tags
+            columns:
+              - column:
+                  name: gift_certificate_id
+                  value: 7120a2ad-215a-4c3b-9f5e-f80234c15eba
+              - column:
+                  name: tag_id
+                  value: 250ef41b-de69-4973-987d-3e36e1152595
+
+        - insert:
+            tableName: gift_certificates_tags
+            columns:
+              - column:
+                  name: gift_certificate_id
+                  value: 7120a2ad-215a-4c3b-9f5e-f80234c15eba
+              - column:
+                  name: tag_id
+                  value: e954e73a-e735-44bc-b117-a4a26439b80d
+
+        - insert:
+            tableName: gift_certificates_tags
+            columns:
+              - column:
+                  name: gift_certificate_id
+                  value: ea1d28e4-2c1e-4815-ab11-6a02792d34b0
+              - column:
+                  name: tag_id
+                  value: e954e73a-e735-44bc-b117-a4a26439b80d
