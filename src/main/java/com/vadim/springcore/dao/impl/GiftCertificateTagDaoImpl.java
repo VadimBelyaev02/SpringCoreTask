@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,8 +43,12 @@ public class GiftCertificateTagDaoImpl implements GiftCertificateTagDao {
 
     @Override
     public GiftCertificateTag save(GiftCertificateTag giftCertificateTag) {
+        if (Objects.nonNull(giftCertificateTag.getId()) && existsById(giftCertificateTag.getId())) {
+            update(giftCertificateTag);
+        }
+
         final String SQL = "INSERT INTO gift_certificates_tags (gift_certificate_id, tag_id) VALUES (?, ?)";
-        int rowAffected = template.update(SQL, giftCertificateTag.getId().getGiftCertificateId(), giftCertificateTag.getId().getTagId());
+        template.update(SQL, giftCertificateTag.getId().getGiftCertificateId(), giftCertificateTag.getId().getTagId());
 
         return giftCertificateTag;
     }
@@ -53,25 +58,31 @@ public class GiftCertificateTagDaoImpl implements GiftCertificateTagDao {
         final String SQL = "UPDATE gift_certificates_tags SET gift_certificate_id = ?, tag_id = ? WHERE gift_certificate_id = ? AND tag_id = ?";
         UUID giftCertificateId = giftCertificateTag.getId().getGiftCertificateId();
         UUID tagId = giftCertificateTag.getId().getTagId();
-        int rowAffected = template.update(SQL, giftCertificateId, tagId, giftCertificateId, tagId);
+        template.update(SQL, giftCertificateId, tagId, giftCertificateId, tagId);
         return giftCertificateTag;
     }
 
     @Override
     public void deleteById(GiftCertificateTagId id) {
         final String SQL = "DELETE FROM gift_certificates_tags WHERE gift_certificate_id = ? AND tag_id = ?";
-        int rowAffected = template.update(SQL, id.getGiftCertificateId(), id.getGiftCertificateId());
+        template.update(SQL, id.getGiftCertificateId(), id.getGiftCertificateId());
     }
 
     @Override
     public void deleteByGiftCertificateId(UUID id) {
         final String SQL = "DELETE FROM gift_certificates_tags WHERE gift_certificate_id = ?";
-        int rowAffected = template.update(SQL, id);
+        template.update(SQL, id);
     }
 
     @Override
     public void deleteByTagId(UUID id) {
         final String SQL = "DELETE FROM gift_certificates_tags WHERE tag_id = ?";
-        int rowAffected = template.update(SQL, id);
+        template.update(SQL, id);
+    }
+
+    @Override
+    public boolean existsById(GiftCertificateTagId id) {
+        final String SQL = "SELECT * FROM gift_certificates_tags WHERE gift_certificate_id = ? AND tag_id = ?";
+        return template.query(SQL, mapper, id.getGiftCertificateId(), id.getTagId()).size() > 0;
     }
 }

@@ -27,6 +27,7 @@ public class GiftCertificateDaoTest {
 
     @Autowired
     private GiftCertificateDao dao;
+
     @Test
     void existsByIdTestWithExistingId() {
         GiftCertificate giftCertificate = dao.findAll().get(0);
@@ -51,7 +52,7 @@ public class GiftCertificateDaoTest {
     @Test
     void findAllLikeTagNameTest() {
         List<GiftCertificate> giftCertificates = dao.findAllLikeName("nAm");
-giftCertificates.forEach(System.out::println);
+        giftCertificates.forEach(System.out::println);
         assertEquals(2, giftCertificates.size());
     }
 

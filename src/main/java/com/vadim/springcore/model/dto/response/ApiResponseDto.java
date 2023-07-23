@@ -18,7 +18,6 @@ public class ApiResponseDto<T> {
     private Instant timestamp;
     private String message;
     private T data;
-    private Integer status;
 
 
     public static <T> ApiResponseDto<T> successApiResponse(String message, T data) {

@@ -10,4 +10,6 @@ public interface GiftCertificateTagDao extends CrudDao<GiftCertificateTag, GiftC
     void deleteByGiftCertificateId(UUID id);
 
     void deleteByTagId(UUID id);
+
+    boolean existsById(GiftCertificateTagId id);
 }

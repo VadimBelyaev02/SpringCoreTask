@@ -68,7 +68,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (Objects.nonNull(tags)) {
             tags.forEach(
                     tag -> {
-                        tag = tagDao.saveIfNotExists(tag);
+                        tag = tagDao.save(tag);
                         giftCertificateTagDao.save(new GiftCertificateTag(new GiftCertificateTagId(giftCertificateId, tag.getId())));
                     }
             );

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.vadim.springcore.util.constants.TagTestConstants.ID;
 import static com.vadim.springcore.util.constants.TagTestConstants.NUMBER_OF_TAGS;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,30 +41,6 @@ public class TagDaoTest {
     }
 
     @Test
-    void saveIfNotExistsTestWithNotExistingTagByName() {
-        Tag tag = TagFactory.getTagFactory().getInstance();
-        tag.setName("a new name");
-
-        Tag savedTag = dao.saveIfNotExists(tag);
-        tag.setId(savedTag.getId());
-
-        assertEquals(tag, savedTag);
-        assertEquals(NUMBER_OF_TAGS + 1, dao.findAll().size());
-    }
-
-    @Test
-    void saveIfNotExistsTestWithExistingTagByName() {
-        Tag tag = TagFactory.getTagFactory().getInstance();
-        tag.setName("NaMe1");
-
-        Tag savedTag = dao.saveIfNotExists(tag);
-        tag.setId(savedTag.getId());
-
-        assertEquals(tag, savedTag);
-        assertEquals(NUMBER_OF_TAGS, dao.findAll().size());
-    }
-
-    @Test
     void findAllByGiftCertificateIdTest() {
         UUID giftCertificateID = UUID.fromString("7120a2ad-215a-4c3b-9f5e-f80234c15eba");
 
@@ -78,7 +53,7 @@ public class TagDaoTest {
     void existsByIdTestWithExistingId() {
         Tag tag = dao.findAll().get(0);
 
-        assertTrue(dao.existsById(ID));
+        assertTrue(dao.existsById(tag.getId()));
     }
 
     @Test

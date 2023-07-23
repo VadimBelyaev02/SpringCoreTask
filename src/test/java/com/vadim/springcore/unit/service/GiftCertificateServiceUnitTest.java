@@ -120,7 +120,7 @@ public class GiftCertificateServiceUnitTest {
 
             when(mapper.toEntity(requestDto)).thenReturn(giftCertificate);
             when(dao.save(any())).thenReturn(giftCertificate);
-            when(tagDao.saveIfNotExists(any())).thenReturn(tag);
+            when(tagDao.save(any())).thenReturn(tag);
             when(giftCertificateTagDao.save(any())).thenReturn(giftCertificateTag);
             when(dao.save(giftCertificate)).thenReturn(giftCertificate);
             when(mapper.toResponseDto(any())).thenReturn(responseDto);
@@ -128,7 +128,7 @@ public class GiftCertificateServiceUnitTest {
             assertEquals(responseDto, service.save(requestDto));
 
             verify(dao).save(any());
-            verify(tagDao, times(3)).saveIfNotExists(any());
+            verify(tagDao, times(3)).save(any());
             verify(giftCertificateTagDao, times(3)).save(any());
             verify(mapper, times(1)).toEntity(requestDto);
             verify(mapper, times(1)).toResponseDto(giftCertificate);
@@ -149,7 +149,7 @@ public class GiftCertificateServiceUnitTest {
             when(dao.findById(id)).thenReturn(Optional.of(giftCertificate));
             doNothing().when(mapper).updateGiftCertificateFromDto(requestDto, giftCertificate);
             when(dao.update(giftCertificate)).thenReturn(giftCertificate);
-            when(tagDao.saveIfNotExists(tag)).thenReturn(tag);
+            when(tagDao.save(tag)).thenReturn(tag);
             when(giftCertificateTagDao.save(any())).thenReturn(giftCertificateTag);
             when(tagDao.findAllByGiftCertificateId(id)).thenReturn(giftCertificate.getTags());
             when(mapper.toResponseDto(any())).thenReturn(responseDto);
@@ -159,7 +159,7 @@ public class GiftCertificateServiceUnitTest {
             verify(dao, times(1)).findById(id);
             verify(mapper, times(1)).updateGiftCertificateFromDto(requestDto, giftCertificate);
             verify(dao, times(1)).update(giftCertificate);
-            verify(tagDao, times(3)).saveIfNotExists(tag);
+            verify(tagDao, times(3)).save(tag);
             verify(giftCertificateTagDao, times(3)).save(any());
             verify(tagDao, times(1)).findAllByGiftCertificateId(id);
             verify(mapper, times(1)).toResponseDto(giftCertificate);

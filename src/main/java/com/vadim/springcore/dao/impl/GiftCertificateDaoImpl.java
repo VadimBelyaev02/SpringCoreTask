@@ -60,6 +60,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public GiftCertificate save(GiftCertificate gc) {
+        if (Objects.nonNull(gc.getId()) && existsById(gc.getId())) {
+            update(gc);
+        }
+
         final String SQL = "INSERT INTO gift_certificates (id, name, price, duration, create_date, last_update_date, description) VALUES (uuid_generate_v4(), ?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -87,7 +91,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     public GiftCertificate update(GiftCertificate giftCertificate) {
         final String SQL = "UPDATE gift_certificates SET name = ?, price = ?, duration = ?, create_date = ?, last_update_date = ?, description = ? WHERE id = ?";
 
-        int rowAffected = template.update(SQL, giftCertificate.getName(), giftCertificate.getPrice(), giftCertificate.getDuration(),
+        template.update(SQL, giftCertificate.getName(), giftCertificate.getPrice(), giftCertificate.getDuration(),
                 Timestamp.from(giftCertificate.getCreateDate()), Timestamp.from(giftCertificate.getLastUpdateDate()), giftCertificate.getDescription(), giftCertificate.getId());
 
         return giftCertificate;
@@ -96,7 +100,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public void deleteById(UUID id) {
         final String SQL = "DELETE FROM gift_certificates WHERE id = ?";
-        int rowAffected = template.update(SQL, id);
+        template.update(SQL, id);
     }
 
     @Override
