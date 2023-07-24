@@ -1,5 +1,6 @@
 package com.vadim.springcore.config;
 
+import com.zaxxer.hikari.HikariConfig;
 import liquibase.integration.spring.SpringLiquibase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,19 +27,6 @@ import javax.sql.DataSource;
 public class ApplicationConfig {
 
     private final Environment environment;
-
-//    @Bean
-//    @Primary
-//    public DataSource dataSource() {
-//        HikariConfig hikariConfig = new HikariConfig();
-//        hikariConfig.setDriverClassName(environment.getRequiredProperty("db.driverClassName"));
-//        hikariConfig.setJdbcUrl(environment.getRequiredProperty("db.url"));
-//        hikariConfig.setPassword(environment.getRequiredProperty("db.password"));
-//        hikariConfig.setUsername(environment.getRequiredProperty("db.username"));
-//       // hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
-//        //   hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "512");
-//        return hikariConfig.getDataSource();
-//    }
 
     @Bean
     public DataSource dataSource() {
