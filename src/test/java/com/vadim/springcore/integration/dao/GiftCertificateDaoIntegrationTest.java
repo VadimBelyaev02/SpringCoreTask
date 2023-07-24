@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {TestConfig.class})
 @WebAppConfiguration
 @Transactional
-public class GiftCertificateDaoTest {
+public class GiftCertificateDaoIntegrationTest {
 
     @Autowired
     private GiftCertificateDao dao;

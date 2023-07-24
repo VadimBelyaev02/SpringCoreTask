@@ -7,6 +7,7 @@ import com.vadim.springcore.model.entity.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -20,27 +21,24 @@ import static com.vadim.springcore.util.constants.TagTestConstants.NUMBER_OF_TAG
 import static org.junit.jupiter.api.Assertions.*;
 
 
-// active profile
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestConfig.class})
 @WebAppConfiguration
 @Transactional
-public class TagDaoTest {
+public class TagDaoIntegrationTest {
 
     @Autowired
     private TagDao dao;
 
     @Test
     void saveTestWithNotExistingTag() {
-        Tag tag = TagFactory.getTagFactory().getInstance();
-        tag.setName("not exifffsting name");
-        Tag tag1 = new Tag();
-        tag1.setId(tag.getId());
-        tag1.setName("qewrt");
-        Tag savedTag = dao.save(tag1);
+        Tag tag = new Tag();
+        tag.setName("qewrt");
+        Tag savedTag = dao.save(tag);
         tag.setId(savedTag.getId());
 
-        assertEquals(tag1, savedTag);
+        assertEquals(tag, savedTag);
         assertEquals(NUMBER_OF_TAGS + 1, dao.findAll().size());
     }
 
@@ -130,5 +128,26 @@ public class TagDaoTest {
 
         assertTrue(optionalTag.isPresent());
         assertEquals(tag, optionalTag.get());
+    }
+
+    @Test
+    void saveIfNotExistsByNameTestWithExistingName() {
+        Tag tag = dao.findAll().get(0);
+
+        Tag savedTag = dao.saveIfNotExistsByName(tag);
+
+        assertEquals(tag, savedTag);
+        assertEquals(NUMBER_OF_TAGS, dao.findAll().size());
+    }
+
+    @Test
+    void saveIfNotExistsByNameTestWithNotExistingName() {
+        Tag tag = new Tag();
+        tag.setName("eoyiuorigjlknfdlkgndlfjhgbxl");
+
+        Tag savedTag = dao.saveIfNotExistsByName(tag);
+
+        assertEquals(tag.getName(), savedTag.getName());
+        assertEquals(NUMBER_OF_TAGS + 1, dao.findAll().size());
     }
 }
