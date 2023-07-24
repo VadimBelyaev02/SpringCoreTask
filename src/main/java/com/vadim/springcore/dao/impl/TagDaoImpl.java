@@ -44,7 +44,7 @@ public class TagDaoImpl implements TagDao {
     @Override
     public Tag save(Tag tag) {
         if (Objects.nonNull(tag.getId()) && existsById(tag.getId())) {
-            update(tag);
+            return update(tag);
         }
 
         final String SQL = "INSERT INTO tags (id, name) VALUES (uuid_generate_v4(), ?)";
@@ -68,14 +68,14 @@ public class TagDaoImpl implements TagDao {
     public Tag update(Tag tag) {
         final String SQL = "UPDATE tags SET name = ? WHERE id = ?";
 
-        int rowAffected = template.update(SQL, tag.getName(), tag.getId());
+        template.update(SQL, tag.getName(), tag.getId());
         return tag;
     }
 
     @Override
     public void deleteById(UUID id) {
         final String SQL = "DELETE FROM tags WHERE id = ?";
-        int rowAffected = template.update(SQL, id);
+         template.update(SQL, id);
     }
 
     @Override
@@ -85,12 +85,12 @@ public class TagDaoImpl implements TagDao {
     }
 
 
-//    @Override
-//    public Tag saveIfNotExists(Tag tag) {
-//        final String SQL = "SELECT * FROM tags WHERE name = ?";
-//        Optional<Tag> optionalTag = template.query(SQL, mapper, tag.getName()).stream().findFirst();
-//        return optionalTag.orElseGet(() -> save(tag));
-//    }
+    @Override
+    public Tag saveIfNotExistsByName(Tag tag) {
+        final String SQL = "SELECT * FROM tags WHERE name = ?";
+        Optional<Tag> optionalTag = template.query(SQL, mapper, tag.getName()).stream().findFirst();
+        return optionalTag.orElseGet(() -> save(tag));
+    }
 
     @Override
     public List<Tag> findAllByGiftCertificateId(UUID id) {

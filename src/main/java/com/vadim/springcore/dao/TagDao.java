@@ -9,7 +9,7 @@ public interface TagDao extends CrudDao<Tag, UUID> {
 
     boolean existsById(UUID id);
 
-  //  Tag saveIfNotExists(Tag tag);
+    Tag saveIfNotExistsByName(Tag tag);
 
     List<Tag> findAllByGiftCertificateId(UUID id);
 

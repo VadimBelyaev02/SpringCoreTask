@@ -19,7 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.vadim.springcore.util.constants.GiftCertificateConstants.GIFT_CERTIFICATE_NOT_FOUND_BY_ID;
@@ -58,22 +61,26 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificate.setLastUpdateDate(giftCertificate.getCreateDate());
 
         final GiftCertificate savedGiftCertificate = giftCertificateDao.save(giftCertificate);
-        savedGiftCertificate.setTags(giftCertificate.getTags());
 
-        saveTags(giftCertificate.getTags(), savedGiftCertificate.getId());
+        if (Objects.nonNull(giftCertificate.getTags())) {
+            List<Tag> tags = saveTags(giftCertificate.getTags(), savedGiftCertificate.getId());
+            savedGiftCertificate.setTags(tags);
+        }
         return mapper.toResponseDto(savedGiftCertificate);
     }
 
-    private void saveTags(List<Tag> tags, UUID giftCertificateId) {
-        if (Objects.nonNull(tags)) {
-            tags.forEach(
-                    tag -> {
-                        tag = tagDao.save(tag);
-                        giftCertificateTagDao.save(new GiftCertificateTag(new GiftCertificateTagId(giftCertificateId, tag.getId())));
-                    }
-            );
+    private List<Tag> saveTags(List<Tag> tags, UUID giftCertificateId) {
+        for (int i = 0; i < tags.size(); i++) {
+            Tag tag = tagDao.saveIfNotExistsByName(tags.get(i));
+            GiftCertificateTagId giftCertificateTagId = new GiftCertificateTagId(giftCertificateId, tag.getId());
+            if (!giftCertificateTagDao.existsById(giftCertificateTagId)) {
+                giftCertificateTagDao.save(new GiftCertificateTag(giftCertificateTagId));
+            }
+            tags.set(i, tag);
         }
+        return tags;
     }
+
 
     @Override
     @Transactional
@@ -84,9 +91,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         mapper.updateGiftCertificateFromDto(requestDto, giftCertificate);
         giftCertificate.setLastUpdateDate(Instant.now());
 
-        saveTags(giftCertificate.getTags(), giftCertificate.getId());
         GiftCertificate updatedGiftCertificate = giftCertificateDao.update(giftCertificate);
-        updatedGiftCertificate.setTags(tagDao.findAllByGiftCertificateId(updatedGiftCertificate.getId()));
+        if (Objects.nonNull(giftCertificate.getTags())) {
+            List<Tag> tags = saveTags(giftCertificate.getTags(), giftCertificate.getId());
+            updatedGiftCertificate.setTags(tags);
+        }
 
         return mapper.toResponseDto(updatedGiftCertificate);
     }
