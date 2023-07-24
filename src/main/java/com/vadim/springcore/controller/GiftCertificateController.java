@@ -138,6 +138,7 @@ public class GiftCertificateController {
      * @throws NotFoundException if gift certificate with id doesn't exist
      */
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<GiftCertificateResponseDto> patchGiftCertificate(@PathVariable("id") UUID id,
                                                                            @RequestBody GiftCertificateRequestDto requestDto) {
         GiftCertificateResponseDto responseDto = service.update(id, requestDto);
