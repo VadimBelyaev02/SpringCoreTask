@@ -33,10 +33,14 @@ public class TagDaoTest {
     @Test
     void saveTestWithNotExistingTag() {
         Tag tag = TagFactory.getTagFactory().getInstance();
-        Tag savedTag = dao.save(tag);
+        tag.setName("not exifffsting name");
+        Tag tag1 = new Tag();
+        tag1.setId(tag.getId());
+        tag1.setName("qewrt");
+        Tag savedTag = dao.save(tag1);
         tag.setId(savedTag.getId());
 
-        assertEquals(tag, savedTag);
+        assertEquals(tag1, savedTag);
         assertEquals(NUMBER_OF_TAGS + 1, dao.findAll().size());
     }
 

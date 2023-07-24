@@ -104,32 +104,21 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     @Transactional(readOnly = true)
     public List<GiftCertificateResponseDto> getAllByCriteria(GiftCertificateCriteria criteria) {
-        List<List<GiftCertificate>> lists = new ArrayList<>(3);
-        List<GiftCertificate> list = new ArrayList<>();
+        List<GiftCertificate> result = new ArrayList<>();
 
-//        Optional.ofNullable(criteria.getTagName()).ifPresent(name -> lists.add(giftCertificateDao.findAllByTagName(name)));
-//        Optional.ofNullable(criteria.getPartOfName()).ifPresent(name -> lists.add(giftCertificateDao.findAllLikeName(name)));
-//        Optional.ofNullable(criteria.getPartOfDescription()).ifPresent(descr -> lists.add(giftCertificateDao.findAllLikeDescription(descr)));
+        if (Objects.nonNull(criteria.getTagName())) {
+            result.addAll(giftCertificateDao.findAllByTagName(criteria.getTagName()));
+        }
+        if (Objects.nonNull(criteria.getPartOfName())) {
+            List<GiftCertificate> byPartName = giftCertificateDao.findAllLikeName(criteria.getPartOfName());
+            boolean b = result.isEmpty() ? result.addAll(byPartName) : result.retainAll(byPartName);
+        }
+        if (Objects.nonNull(criteria.getPartOfDescription())) {
+            List<GiftCertificate> byPartDescription = giftCertificateDao.findAllLikeDescription(criteria.getPartOfDescription());
+            boolean b = result.isEmpty() ? result.addAll(byPartDescription) : result.retainAll(byPartDescription);
+        }
 
-        Optional.ofNullable(criteria.getTagName()).ifPresent(name -> list.addAll(giftCertificateDao.findAllByTagName(name)));
-        Optional.ofNullable(criteria.getPartOfName()).ifPresent(name -> list.addAll(giftCertificateDao.findAllLikeName(name)));
-        Optional.ofNullable(criteria.getPartOfDescription()).ifPresent(descr -> list.addAll(giftCertificateDao.findAllLikeDescription(descr)));
-
-
-
-//        if (Objects.nonNull(criteria.getTagName())) {
-//            lists.add(giftCertificateDao.findAllByTagName(criteria.getTagName()));
-//        }
-//        if (Objects.nonNull(criteria.getPartOfName())) {
-//            lists.add(giftCertificateDao.findAllLikeName(criteria.getPartOfName()));
-//        }
-//        if (Objects.nonNull(criteria.getPartOfDescription())) {
-//            lists.add(giftCertificateDao.findAllLikeDescription(criteria.getPartOfDescription()));
-//        }
-        // it's not conjunction, needs to be rewritten
-        return lists.stream()
-                .flatMap(List::stream).toList()
-                .stream()
+        return result.stream()
                 .sorted(ComparatorUtil.getComparator(criteria.getFirstSortBy(), criteria.getFirstSortType())
                         .thenComparing(ComparatorUtil.getComparator(criteria.getSecondSortBy(), criteria.getSecondSortType())))
                 .peek(gc -> gc.setTags(tagDao.findAllByGiftCertificateId(gc.getId())))
