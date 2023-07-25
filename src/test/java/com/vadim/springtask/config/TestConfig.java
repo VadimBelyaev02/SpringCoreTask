@@ -30,12 +30,12 @@ public class TestConfig {
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("classpath:db/changelog/test-db-master-changelog.yaml");
+        liquibase.setChangeLog("classpath:db/changelog/test-db.changelog-master.yaml");
         liquibase.setDataSource(dataSource);
 
         // Add the search path here
         liquibase.setResourceLoader(new DefaultResourceLoader(Thread.currentThread().getContextClassLoader()));
-        liquibase.setChangeLog("classpath:/db/changelog/db-master-changelog.yaml");
+        liquibase.setChangeLog("classpath:/db/changelog/db.changelog-master.yaml");
         liquibase.setContexts("test");
         return liquibase;
     }
