@@ -32,7 +32,7 @@ import static com.vadim.springtask.util.constants.GiftCertificateConstants.GIFT_
 public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private final GiftCertificateDao giftCertificateDao;
-    private final GiftCertificateTagDao giftCertificateTagDao;
+    //private final GiftCertificateTagDao giftCertificateTagDao;
     private final GiftCertificateMapper mapper;
     private final TagDao tagDao;
 
@@ -59,28 +59,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         GiftCertificate giftCertificate = mapper.toEntity(requestDto);
         giftCertificate.setCreateDate(Instant.now());
         giftCertificate.setLastUpdateDate(giftCertificate.getCreateDate());
-
-        final GiftCertificate savedGiftCertificate = giftCertificateDao.save(giftCertificate);
-
-        if (Objects.nonNull(giftCertificate.getTags())) {
-            List<Tag> tags = saveTags(giftCertificate.getTags(), savedGiftCertificate.getId());
-            savedGiftCertificate.setTags(tags);
-        }
+        GiftCertificate savedGiftCertificate = giftCertificateDao.save(giftCertificate);
         return mapper.toResponseDto(savedGiftCertificate);
     }
-
-    private List<Tag> saveTags(List<Tag> tags, UUID giftCertificateId) {
-        for (int i = 0; i < tags.size(); i++) {
-            Tag tag = tagDao.saveIfNotExistsByName(tags.get(i));
-            GiftCertificateTagId giftCertificateTagId = new GiftCertificateTagId(giftCertificateId, tag.getId());
-            if (!giftCertificateTagDao.existsById(giftCertificateTagId)) {
-                giftCertificateTagDao.save(new GiftCertificateTag(giftCertificateTagId));
-            }
-            tags.set(i, tag);
-        }
-        return tags;
-    }
-
 
     @Override
     @Transactional
@@ -89,13 +70,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id))
         );
         mapper.updateGiftCertificateFromDto(requestDto, giftCertificate);
-        giftCertificate.setLastUpdateDate(Instant.now());
 
         GiftCertificate updatedGiftCertificate = giftCertificateDao.update(giftCertificate);
-        if (Objects.nonNull(giftCertificate.getTags())) {
-            List<Tag> tags = saveTags(giftCertificate.getTags(), giftCertificate.getId());
-            updatedGiftCertificate.setTags(tags);
-        }
 
         return mapper.toResponseDto(updatedGiftCertificate);
     }
@@ -106,7 +82,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (!giftCertificateDao.existsById(id)) {
             throw new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id));
         }
-        giftCertificateTagDao.deleteByGiftCertificateId(id);
+    //    giftCertificateTagDao.deleteByGiftCertificateId(id);
         giftCertificateDao.deleteById(id);
     }
 
