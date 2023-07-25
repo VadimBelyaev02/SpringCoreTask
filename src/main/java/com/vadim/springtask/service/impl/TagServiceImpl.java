@@ -1,6 +1,5 @@
 package com.vadim.springtask.service.impl;
 
-import com.vadim.springtask.dao.GiftCertificateTagDao;
 import com.vadim.springtask.dao.TagDao;
 import com.vadim.springtask.exception.DuplicateRecordException;
 import com.vadim.springtask.exception.NotFoundException;
@@ -26,7 +25,6 @@ public class TagServiceImpl implements TagService {
 
     private final TagDao dao;
     private final TagMapper mapper;
-    private final GiftCertificateTagDao giftCertificateTagDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -64,7 +62,7 @@ public class TagServiceImpl implements TagService {
                 new NotFoundException(String.format(TAG_NOT_FOUND_BY_ID, id))
         );
         mapper.updateTagFromDto(requestDto, tag);
-        return mapper.toResponseDto(dao.update(tag));
+        return mapper.toResponseDto(tag);
     }
 
     @Override
@@ -73,7 +71,6 @@ public class TagServiceImpl implements TagService {
         if (!dao.existsById(id)) {
             throw new NotFoundException(String.format(TAG_NOT_FOUND_BY_ID, id));
         }
-        giftCertificateTagDao.deleteByTagId(id);
         dao.deleteById(id);
     }
 }
