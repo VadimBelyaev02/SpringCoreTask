@@ -2,103 +2,82 @@ package com.vadim.springtask.dao.impl;
 
 import com.vadim.springtask.dao.TagDao;
 import com.vadim.springtask.model.entity.Tag;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class TagDaoImpl implements TagDao {
 
-    private final JdbcTemplate template;
-
-    private final RowMapper<Tag> mapper = (rs, rowNum) -> {
-        final UUID id = UUID.fromString(rs.getString("id"));
-        final String name = rs.getString("name");
-
-        return Tag.builder()
-                .name(name)
-                .id(id)
-                .build();
-    };
+    @PersistenceContext
+    private final EntityManager manager;
 
     @Override
     public List<Tag> findAll() {
-        final String SQL = "SELECT * FROM tags";
-        return template.query(SQL, mapper);
+        String query = "SELECT t FROM Tag t";
+        return manager.createQuery(query, Tag.class).getResultList();
     }
 
     @Override
     public Optional<Tag> findById(UUID id) {
-        final String SQL = "SELECT * FROM tags WHERE id = ?";
-        return template.query(SQL, mapper, id).stream().findFirst();
+        Tag tag = manager.find(Tag.class, id);
+        if (Objects.nonNull(tag)) {
+       //     manager.detach(tag);
+        }
+        return Optional.ofNullable(tag);
     }
 
     @Override
     public Tag save(Tag tag) {
-        if (Objects.nonNull(tag.getId()) && existsById(tag.getId())) {
-            return update(tag);
-        }
-
-        final String SQL = "INSERT INTO tags (id, name) VALUES (uuid_generate_v4(), ?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        int rowAffected = template.update(con -> {
-            PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, tag.getName());
-            return ps;
-        }, keyHolder);
-        Map<String, Object> keys = keyHolder.getKeys();
-        Object object = Objects.requireNonNull(keys).get("id");
-        if (Objects.isNull(object) || rowAffected != 1) {
-            throw new RuntimeException();
-        }
-        tag.setId(UUID.fromString(object.toString()));
+        manager.persist(tag);
         return tag;
     }
 
     @Override
     public Tag update(Tag tag) {
-        final String SQL = "UPDATE tags SET name = ? WHERE id = ?";
-
-        template.update(SQL, tag.getName(), tag.getId());
-        return tag;
+        return manager.merge(tag);
     }
 
     @Override
     public void deleteById(UUID id) {
-        final String SQL = "DELETE FROM tags WHERE id = ?";
-         template.update(SQL, id);
+        String query = "DELETE FROM Tag t WHERE t.id = :id";
+        manager.createQuery(query)
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Override
     public boolean existsById(UUID id) {
-        final String SQL = "SELECT * FROM tags WHERE id = ?";
-        return template.query(SQL, mapper, id).size() > 0;
+        return Objects.nonNull(manager.find(Tag.class, id));
     }
 
 
     @Override
     public Tag saveIfNotExistsByName(Tag tag) {
-        final String SQL = "SELECT * FROM tags WHERE name = ?";
-        Optional<Tag> optionalTag = template.query(SQL, mapper, tag.getName()).stream().findFirst();
+        final String query = "SELECT t FROM Tag t WHERE t.name = :name";
+        Optional<Tag> optionalTag = manager.createQuery(query, Tag.class)
+                .setParameter("name", tag.getName())
+                .getResultList()
+                .stream().findFirst();
         return optionalTag.orElseGet(() -> save(tag));
     }
 
     @Override
     public List<Tag> findAllByGiftCertificateId(UUID id) {
-        final String SQL = "SELECT * FROM tags\n" +
-                "JOIN gift_certificates_tags gct on gct.tag_id = tags.id\n" +
-                "JOIN gift_certificates gc on gct.gift_certificate_id = gc.id\n" +
-                "WHERE gift_certificate_id = ?";
-        return template.query(SQL, mapper, id);
+        final String query = "SELECT t FROM Tag t\n" +
+                "JOIN GiftCertificateTag gct on gct.id.tagId = t.id\n" +
+                "JOIN GiftCertificate gc on gct.id.giftCertificateId = gc.id\n" +
+                "WHERE gc.id = :gcId";
+        return manager.createQuery(query, Tag.class)
+                .setParameter("gcId", id)
+                .getResultList();
     }
         /*
 SELECT * FROM tags
@@ -112,7 +91,9 @@ WHERE gct.gift_certificate_id = '5bd84a44-194c-4c35-8104-431505d8cef1'
 
     @Override
     public boolean existsByName(String name) {
-        final String SQL = "SELECT * FROM tags WHERE name = ?";
-        return template.query(SQL, mapper, name).size() > 0;
+        final String query = "SELECT t FROM Tag t WHERE t.name = :name";
+        return manager.createQuery(query, Tag.class)
+                .setParameter("name", name)
+                .getResultList().size() > 0;
     }
 }
