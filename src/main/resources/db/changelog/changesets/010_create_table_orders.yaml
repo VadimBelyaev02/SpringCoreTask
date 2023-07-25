@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010_1
+      author: VadimBelyaev
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: cost
+                  type: numeric(38, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: purchase_time
+                  type: timestamp(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: users_id_fk
+                    referencedColumnNames: id
+                    referencedTableName: users
+              - column:
+                  name: gift_certificate_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: gift_certificates_id_fk
+                    referencedTableName: gift_certificates
+                    referencedColumnNames: id
