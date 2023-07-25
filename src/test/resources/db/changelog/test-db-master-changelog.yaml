@@ -1,33 +1,7 @@
 databaseChangeLog:
   - include:
-      file: ../../../main/resources/db/changelog/db-master-changelog.yaml
+      file: ../../../main/resources/db/changelog/db.changelog-master.yaml
       relativeToChangelogFile: false
-
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/001_create_gift_certificates_table.yaml
-#      relativeToChangelogFile: false
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/002_create_tags_table.yaml
-#      relativeToChangelogFile: false
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/003_create_gift_certificates_tags_table.yaml
-#      relativeToChangelogFile: false
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/004-create-foreign_key_constraints.yaml
-#
-#      relativeToChangelogFile: false
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/005_create_composite_primary_key.yaml
-#      relativeToChangelogFile: false
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/006_add_column_in_gift_certificates.yaml
-#      relativeToChangelogFile: false
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/006_add_column_in_gift_certificates.yaml
-#      relativeToChangelogFile: false
-#  - include:
-#      file: ../../../main/resources/db/changelog/changesets/008_add_constraints_for_tag_name.yaml
-#      relativeToChangelogFile: false
 
   - includeAll:
       path: changesets/
