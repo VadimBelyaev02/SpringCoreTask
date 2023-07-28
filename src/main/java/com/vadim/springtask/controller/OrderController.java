@@ -45,6 +45,11 @@ public class OrderController {
     @GetMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<OrderResponseDto> postOrder(@RequestBody @Valid OrderRequestDto requestDto) {
-        OrderResponseDto responseDto = service.save();
+        OrderResponseDto responseDto = service.save(requestDto);
+
+        return ApiResponseDto.successApiResponse(
+                "Order is created",
+                responseDto
+        );
     }
 }
