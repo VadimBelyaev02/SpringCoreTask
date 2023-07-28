@@ -32,7 +32,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public List<GiftCertificate> findAll() {
-        String query = "SELECT s FROM GiftCertificate s";
+        final String query = "SELECT s FROM GiftCertificate s";
         return manager.createQuery(query, GiftCertificate.class).getResultList();
     }
 
@@ -59,7 +59,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public void deleteById(UUID id) {
-        String query = "DELETE FROM GiftCertificate gc WHERE gc.id = :id";
+        final String query = "DELETE FROM GiftCertificate gc WHERE gc.id = :id";
         manager.createQuery(query)
                 .setParameter("id", id)
                 .executeUpdate();
@@ -86,8 +86,6 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public List<GiftCertificate> findAllLikeName(String partOfName) {
         final String query = "SELECT gc FROM GiftCertificate gc WHERE gc.name ILIKE :name";
-
-      //  final String query = "SELECT gc FROM GiftCertificate gc WHERE LOWER(gc.name) LIKE LOWER(:name)";
         return manager.createQuery(query, GiftCertificate.class)
                 .setParameter("name", partOfName)
                 .getResultList();

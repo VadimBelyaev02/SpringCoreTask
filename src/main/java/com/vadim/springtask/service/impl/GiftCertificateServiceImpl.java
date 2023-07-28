@@ -32,7 +32,6 @@ import static com.vadim.springtask.util.constants.GiftCertificateConstants.GIFT_
 public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private final GiftCertificateDao giftCertificateDao;
-    //private final GiftCertificateTagDao giftCertificateTagDao;
     private final GiftCertificateMapper mapper;
     private final TagDao tagDao;
 
@@ -82,7 +81,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (!giftCertificateDao.existsById(id)) {
             throw new NotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_BY_ID, id));
         }
-    //    giftCertificateTagDao.deleteByGiftCertificateId(id);
         giftCertificateDao.deleteById(id);
     }
 

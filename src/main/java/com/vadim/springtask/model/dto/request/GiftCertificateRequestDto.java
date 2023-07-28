@@ -31,6 +31,4 @@ public class GiftCertificateRequestDto {
     @NotNull
     @Positive
     private Integer duration;
-
-    private List<TagRequestDto> tags;
 }
