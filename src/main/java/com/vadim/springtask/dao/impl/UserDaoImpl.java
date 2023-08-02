@@ -1,10 +1,12 @@
 package com.vadim.springtask.dao.impl;
 
 import com.vadim.springtask.dao.UserDao;
+import com.vadim.springtask.model.entity.GiftCertificate;
 import com.vadim.springtask.model.entity.Tag;
 import com.vadim.springtask.model.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -52,5 +54,14 @@ public class UserDaoImpl implements UserDao {
         manager.createQuery(query)
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    @Override
+    public List<User> findAll(Integer page, Integer pageSize) {
+        String query = "SELECT gc FROM User gc";
+        TypedQuery<User> typedQuery = manager.createQuery(query, User.class);
+        typedQuery.setFirstResult(page * pageSize);
+        typedQuery.setMaxResults(pageSize);
+        return typedQuery.getResultList();
     }
 }
