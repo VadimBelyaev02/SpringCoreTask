@@ -1,6 +1,7 @@
 package com.vadim.springtask.controller;
 
 import com.vadim.springtask.model.dto.response.ApiResponseDto;
+import com.vadim.springtask.model.dto.response.PageResponseDto;
 import com.vadim.springtask.model.dto.response.TagResponseDto;
 import com.vadim.springtask.model.dto.response.UserResponseDto;
 import com.vadim.springtask.model.entity.User;
@@ -10,7 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import static com.vadim.springtask.util.constants.PaginationConstants.DEFAULT_PAGE_NUMBER;
+import static com.vadim.springtask.util.constants.PaginationConstants.DEFAULT_PAGE_SIZE;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,12 +37,17 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponseDto<List<UserResponseDto>> getAllUsers() {
-        List<UserResponseDto> userResponseDtos = service.getAll();
+    public ApiResponseDto<PageResponseDto<UserResponseDto>> getAllUsers(
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize
+    ) {
+        page = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
+        pageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
+        PageResponseDto<UserResponseDto> pageResponseDto = service.getAll(page, pageSize);
 
         return ApiResponseDto.successApiResponse(
-                "All users",
-                userResponseDtos
+                "All users; page: " + page + "; page size: " + pageSize,
+                pageResponseDto
         );
     }
 }

@@ -17,6 +17,7 @@ public class ApiResponseDto<T> {
     @JsonSerialize(using = ToStringSerializer.class)
     private Instant timestamp;
     private String message;
+    @JsonSerialize(using = ToStringSerializer.class)
     private T data;
 
 
