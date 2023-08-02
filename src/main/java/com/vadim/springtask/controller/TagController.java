@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.vadim.springtask.util.constants.PaginationConstants.DEFAULT_PAGE_NUMBER;
+import static com.vadim.springtask.util.constants.PaginationConstants.DEFAULT_PAGE_SIZE;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/tags")
@@ -49,10 +52,12 @@ public class TagController {
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "pageSize", required = false) Integer pageSize
     ) {
+        page = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
+        pageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
         PageResponseDto<TagResponseDto> tagResponseDtos = service.getAll(page, pageSize);
 
         return ApiResponseDto.successApiResponse(
-                "All tags",
+                "All tags; page: " + page + "; page size: " + pageSize ,
                 tagResponseDtos
         );
     }
