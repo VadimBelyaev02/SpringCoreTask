@@ -1,9 +1,11 @@
 package com.vadim.springtask.dao.impl;
 
 import com.vadim.springtask.dao.TagDao;
+import com.vadim.springtask.model.entity.GiftCertificate;
 import com.vadim.springtask.model.entity.Tag;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -51,6 +53,15 @@ public class TagDaoImpl implements TagDao {
         manager.createQuery(query)
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    @Override
+    public List<Tag> findAll(Integer page, Integer pageSize) {
+        String query = "SELECT t FROM Tag t";
+        TypedQuery<Tag> typedQuery = manager.createQuery(query, Tag.class);
+        typedQuery.setFirstResult(page * pageSize);
+        typedQuery.setMaxResults(pageSize);
+        return typedQuery.getResultList();
     }
 
     @Override

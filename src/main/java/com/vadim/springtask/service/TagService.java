@@ -1,6 +1,7 @@
 package com.vadim.springtask.service;
 
 import com.vadim.springtask.model.dto.request.TagRequestDto;
+import com.vadim.springtask.model.dto.response.PageResponseDto;
 import com.vadim.springtask.model.dto.response.TagResponseDto;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface TagService {
 
     TagResponseDto getById(UUID id);
 
-    List<TagResponseDto> getAll();
+    PageResponseDto<TagResponseDto> getAll(Integer pag, Integer pageSize);
 
     TagResponseDto save(TagRequestDto requestDto);
 
