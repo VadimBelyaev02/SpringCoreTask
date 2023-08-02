@@ -65,7 +65,7 @@ public class TagController {
     /**
      * POST /api/tags : Create a new tag
      *
-     * @param requestDto Tag to be created (required)
+     * @param requestDto Tag to be created (required)O
      * @throws DuplicateRecordException if tag with such a name already exists
      */
     @PostMapping
