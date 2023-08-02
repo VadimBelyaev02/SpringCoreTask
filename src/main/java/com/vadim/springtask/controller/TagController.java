@@ -4,6 +4,7 @@ import com.vadim.springtask.exception.DuplicateRecordException;
 import com.vadim.springtask.exception.NotFoundException;
 import com.vadim.springtask.model.dto.request.TagRequestDto;
 import com.vadim.springtask.model.dto.response.ApiResponseDto;
+import com.vadim.springtask.model.dto.response.PageResponseDto;
 import com.vadim.springtask.model.dto.response.TagResponseDto;
 import com.vadim.springtask.service.TagService;
 import jakarta.validation.Valid;
@@ -44,8 +45,11 @@ public class TagController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponseDto<List<TagResponseDto>> getAllTags() {
-        List<TagResponseDto> tagResponseDtos = service.getAll();
+    public ApiResponseDto<PageResponseDto<TagResponseDto>> getAllTags(
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize
+    ) {
+        PageResponseDto<TagResponseDto> tagResponseDtos = service.getAll(page, pageSize);
 
         return ApiResponseDto.successApiResponse(
                 "All tags",
@@ -73,7 +77,7 @@ public class TagController {
     /**
      * PUT /api/tags/{id} : Update an existing tag
      *
-     * @param id Tag id (required)
+     * @param id         Tag id (required)
      * @param requestDto Tag to be updated (required)
      * @throws NotFoundException if the Tag with id doesn't exist
      */
@@ -105,4 +109,6 @@ public class TagController {
                 Optional.empty()
         );
     }
+
+
 }
