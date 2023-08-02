@@ -1,5 +1,6 @@
 package com.vadim.springtask.service;
 
+import com.vadim.springtask.model.dto.response.PageResponseDto;
 import com.vadim.springtask.model.dto.response.UserResponseDto;
 
 import java.util.List;
@@ -9,5 +10,5 @@ public interface UserService {
 
     UserResponseDto getById(UUID id);
 
-    List<UserResponseDto> getAll();
+    PageResponseDto<UserResponseDto> getAll(Integer page, Integer pageSize);
 }
