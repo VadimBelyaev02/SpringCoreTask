@@ -1,27 +1,17 @@
 package com.vadim.springtask.dao.impl;
 
 import com.vadim.springtask.dao.GiftCertificateDao;
-import com.vadim.springtask.dao.GiftCertificateTagDao;
 import com.vadim.springtask.model.entity.GiftCertificate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceUnit;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -63,6 +53,15 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         manager.createQuery(query)
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    @Override
+    public List<GiftCertificate> findAll(Integer page, Integer pageSize) {
+        String query = "SELECT gc FROM GiftCertificate gc";
+        TypedQuery<GiftCertificate> typedQuery = manager.createQuery(query, GiftCertificate.class);
+        typedQuery.setFirstResult(page * pageSize);
+        typedQuery.setMaxResults(pageSize);
+        return typedQuery.getResultList();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.vadim.springtask.controller;
 
+import com.vadim.springtask.config.PaginationProperties;
 import com.vadim.springtask.exception.NotFoundException;
 import com.vadim.springtask.model.criteria.GiftCertificateCriteria;
 import com.vadim.springtask.model.criteria.enums.SortField;
@@ -7,6 +8,7 @@ import com.vadim.springtask.model.criteria.enums.SortType;
 import com.vadim.springtask.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springtask.model.dto.response.ApiResponseDto;
 import com.vadim.springtask.model.dto.response.GiftCertificateResponseDto;
+import com.vadim.springtask.model.dto.response.PageResponseDto;
 import com.vadim.springtask.service.GiftCertificateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Validated
@@ -25,6 +28,7 @@ import java.util.UUID;
 public class GiftCertificateController {
 
     private final GiftCertificateService service;
+    private final PaginationProperties paginationProperties;
 
     /**
      * GET /api/giftCertificates/{id} : Find gift certificate
@@ -48,8 +52,14 @@ public class GiftCertificateController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponseDto<List<GiftCertificateResponseDto>> getAllGiftCertificates() {
-        List<GiftCertificateResponseDto> responseDtos = service.getAll();
+    public ApiResponseDto<PageResponseDto<GiftCertificateResponseDto>> getAllGiftCertificates(
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize
+    ) {
+        page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
+        pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
+
+        PageResponseDto<GiftCertificateResponseDto> responseDtos = service.getAll(page, pageSize);
 
         return ApiResponseDto.successApiResponse(
                 "Here is all gift certificates",
@@ -60,13 +70,13 @@ public class GiftCertificateController {
     /**
      * GET /api/giftCertificates : Find Gift Certificates info by criteria
      *
-     * @param tagName Gift Certificate tag's name (not required)
-     * @param firstSortBy First field to sort by (name/description, not required)
-     * @param secondSortBy Second field to sort by (name/description, not required)
-     * @param firstSortType First sort type (ASC/DESC, not required)
-     * @param secondSortType Second sort type (ASC/DESC, not required)
+     * @param tagName           Gift Certificate tag's name (not required)
+     * @param firstSortBy       First field to sort by (name/description, not required)
+     * @param secondSortBy      Second field to sort by (name/description, not required)
+     * @param firstSortType     First sort type (ASC/DESC, not required)
+     * @param secondSortType    Second sort type (ASC/DESC, not required)
      * @param partOfDescription Part of description (not required)
-     * @param partOfName Part of name (not required)
+     * @param partOfName        Part of name (not required)
      */
     @GetMapping("/criteria")
     @ResponseStatus(HttpStatus.OK)
@@ -115,7 +125,7 @@ public class GiftCertificateController {
     /**
      * PUT /api/giftCertificates/{id} : Update an existing gift certificate
      *
-     * @param id Gift certificate id (required)
+     * @param id         Gift certificate id (required)
      * @param requestDto Gift certificate object to be updated (required)
      * @throws NotFoundException if gift certificate with id doesn't exist
      */
@@ -133,7 +143,7 @@ public class GiftCertificateController {
     /**
      * PATCH /api/giftCertificates/{id} : Partially updating an existing gift certificate
      *
-     * @param id Gift Certificate id to return (required)
+     * @param id         Gift Certificate id to return (required)
      * @param requestDto gift certificate to be updated (required)
      * @throws NotFoundException if gift certificate with id doesn't exist
      */

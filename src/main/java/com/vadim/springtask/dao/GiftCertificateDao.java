@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface GiftCertificateDao extends CrudDao<GiftCertificate, UUID> {
 
+    List<GiftCertificate> findAll(Integer page, Integer pageSize);
     boolean existsById(UUID id);
 
     List<GiftCertificate> findAllByTagName(String tagName);
