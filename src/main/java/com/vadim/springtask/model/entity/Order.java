@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Getter
+@Builder
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor

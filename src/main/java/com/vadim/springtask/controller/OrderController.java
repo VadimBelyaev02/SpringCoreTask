@@ -7,6 +7,7 @@ import com.vadim.springtask.model.dto.response.TagResponseDto;
 import com.vadim.springtask.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,6 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<List<OrderResponseDto>> getOrdersByUserId(@PathVariable("userId") UUID id) {
         List<OrderResponseDto> orderResponseDtos = service.getAllByUserId(id);
-
         return ApiResponseDto.successApiResponse(
                 "All orders by user id = " + id,
                 orderResponseDtos
@@ -42,7 +42,7 @@ public class OrderController {
         );
     }
 
-    @GetMapping
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<OrderResponseDto> postOrder(@RequestBody @Valid OrderRequestDto requestDto) {
         OrderResponseDto responseDto = service.save(requestDto);
