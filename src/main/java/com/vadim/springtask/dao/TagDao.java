@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface TagDao extends CrudDao<Tag, UUID> {
 
+    List<Tag> findAll(Integer page, Integer pageSize);
     boolean existsById(UUID id);
 
     Tag saveIfNotExistsByName(Tag tag);
