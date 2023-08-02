@@ -11,7 +11,6 @@ public class GiftCertificateRequestDtoFactory implements ModelFactory<GiftCertif
     @Override
     public GiftCertificateRequestDto getInstance() {
         return GiftCertificateRequestDto.builder()
-                .tags(TagRequestDtoFactory.getTagFactory().getInstanceList())
                 .duration(DURATION)
                 .description(DESCRIPTION)
                 .price(PRICE)
