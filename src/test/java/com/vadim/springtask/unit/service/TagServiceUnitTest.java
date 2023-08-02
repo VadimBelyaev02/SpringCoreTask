@@ -93,10 +93,10 @@ public class TagServiceUnitTest {
             List<Tag> tags = TagFactory.getTagFactory().getInstanceList();
             List<TagResponseDto> tagResponseDtos = TagResponseDtoFactory.getTagFactory().getInstanceList(listSize);
 
-            when(tagDao.findAll()).thenReturn(tags);
+            when(tagDao.findAll(anyInt(), anyInt())).thenReturn(tags);
             when(mapper.toResponseDto(any())).thenReturn(responseDto);
 
-            assertEquals(tagResponseDtos, service.getAll());
+            assertEquals(tagResponseDtos, service.getAll(anyInt(), anyInt()));
 
             verify(tagDao, only()).findAll();
             verify(mapper, times(listSize)).toResponseDto(tag);

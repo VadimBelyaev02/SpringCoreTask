@@ -97,10 +97,10 @@ public class GiftCertificateServiceUnitTest {
             List<GiftCertificate> giftCertificates = GiftCertificateFactory.getTagFactory().getInstanceList(listSize);
             List<GiftCertificateResponseDto> responseDtos = GiftCertificateResponseDtoFactory.getTagFactory().getInstanceList(listSize);
 
-            when(dao.findAll()).thenReturn(giftCertificates);
+            when(dao.findAll(anyInt(),anyInt())).thenReturn(giftCertificates);
             when(mapper.toResponseDto(any())).thenReturn(responseDto);
 
-            assertEquals(responseDtos, service.getAll());
+            assertEquals(responseDtos, service.getAll(anyInt(), anyInt()));
 
             verify(dao, only()).findAll();
             verify(mapper, times(listSize)).toResponseDto(giftCertificate);

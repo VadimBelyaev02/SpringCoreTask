@@ -3,8 +3,6 @@ package com.vadim.springtask.model.dto.mapper;
 import com.vadim.springtask.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springtask.model.dto.response.GiftCertificateResponseDto;
 import com.vadim.springtask.model.entity.GiftCertificate;
-import com.vadim.springtask.model.entity.Tag;
-import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +28,6 @@ public class GiftCertificateMapperImpl implements GiftCertificateMapper {
         giftCertificate.price( dto.getPrice() );
         giftCertificate.duration( dto.getDuration() );
         giftCertificate.description( dto.getDescription() );
-        giftCertificate.tags( tagMapper.tagRequestDtoListToTagList( dto.getTags() ) );
 
         return giftCertificate.build();
     }
@@ -72,22 +69,6 @@ public class GiftCertificateMapperImpl implements GiftCertificateMapper {
         }
         if ( requestDto.getDescription() != null ) {
             giftCertificate.setDescription( requestDto.getDescription() );
-        }
-        if ( giftCertificate.getTags() != null ) {
-            List<Tag> list = tagMapper.tagRequestDtoListToTagList( requestDto.getTags() );
-            if ( list != null ) {
-                giftCertificate.getTags().clear();
-                giftCertificate.getTags().addAll( list );
-            }
-            else {
-                giftCertificate.setTags( null );
-            }
-        }
-        else {
-            List<Tag> list = tagMapper.tagRequestDtoListToTagList( requestDto.getTags() );
-            if ( list != null ) {
-                giftCertificate.setTags( list );
-            }
         }
     }
 }
