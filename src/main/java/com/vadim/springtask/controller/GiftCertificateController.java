@@ -1,6 +1,5 @@
 package com.vadim.springtask.controller;
 
-import com.vadim.springtask.config.PaginationProperties;
 import com.vadim.springtask.exception.NotFoundException;
 import com.vadim.springtask.model.criteria.GiftCertificateCriteria;
 import com.vadim.springtask.model.criteria.enums.SortField;
@@ -21,6 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.vadim.springtask.util.constants.PaginationConstants.DEFAULT_PAGE_NUMBER;
+import static com.vadim.springtask.util.constants.PaginationConstants.DEFAULT_PAGE_SIZE;
+
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +30,6 @@ import java.util.UUID;
 public class GiftCertificateController {
 
     private final GiftCertificateService service;
-    private final PaginationProperties paginationProperties;
 
     /**
      * GET /api/giftCertificates/{id} : Find gift certificate
@@ -56,8 +57,8 @@ public class GiftCertificateController {
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "pageSize", required = false) Integer pageSize
     ) {
-        page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
-        pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
+        page = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
+        pageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
 
         PageResponseDto<GiftCertificateResponseDto> responseDtos = service.getAll(page, pageSize);
 
