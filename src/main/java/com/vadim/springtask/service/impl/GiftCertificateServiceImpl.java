@@ -1,7 +1,6 @@
 package com.vadim.springtask.service.impl;
 
 import com.vadim.springtask.dao.GiftCertificateDao;
-import com.vadim.springtask.dao.GiftCertificateTagDao;
 import com.vadim.springtask.dao.TagDao;
 import com.vadim.springtask.exception.NotFoundException;
 import com.vadim.springtask.model.criteria.ComparatorUtil;
@@ -9,10 +8,8 @@ import com.vadim.springtask.model.criteria.GiftCertificateCriteria;
 import com.vadim.springtask.model.dto.mapper.GiftCertificateMapper;
 import com.vadim.springtask.model.dto.request.GiftCertificateRequestDto;
 import com.vadim.springtask.model.dto.response.GiftCertificateResponseDto;
+import com.vadim.springtask.model.dto.response.PageResponseDto;
 import com.vadim.springtask.model.entity.GiftCertificate;
-import com.vadim.springtask.model.entity.GiftCertificateTag;
-import com.vadim.springtask.model.entity.GiftCertificateTagId;
-import com.vadim.springtask.model.entity.Tag;
 import com.vadim.springtask.service.GiftCertificateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.vadim.springtask.util.constants.GiftCertificateConstants.GIFT_CERTIFICATE_NOT_FOUND_BY_ID;
 
@@ -46,10 +42,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<GiftCertificateResponseDto> getAll() {
-        return giftCertificateDao.findAll().stream()
+    public PageResponseDto<GiftCertificateResponseDto> getAll(Integer page, Integer pageSize) {
+        List<GiftCertificateResponseDto> giftCertificates = giftCertificateDao.findAll(page, pageSize).stream()
                 .map(mapper::toResponseDto)
-                .collect(Collectors.toList());
+                .toList();
+        return PageResponseDto.<GiftCertificateResponseDto>builder()
+                .pageNumber(page)
+                .size(pageSize)
+                .elementsAmount(giftCertificates.size())
+                .content(giftCertificates)
+                .build();
     }
 
     @Override
