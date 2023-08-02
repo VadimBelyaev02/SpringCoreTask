@@ -62,7 +62,7 @@ public class GiftCertificateController {
         PageResponseDto<GiftCertificateResponseDto> responseDtos = service.getAll(page, pageSize);
 
         return ApiResponseDto.successApiResponse(
-                "Here is all gift certificates",
+                "Here is all gift certificates; page: " + page + "; page size: " + pageSize,
                 responseDtos
         );
     }
