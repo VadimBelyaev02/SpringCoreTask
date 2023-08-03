@@ -2,15 +2,12 @@ package com.vadim.springtask.controller;
 
 import com.vadim.springtask.model.dto.response.ApiResponseDto;
 import com.vadim.springtask.model.dto.response.PageResponseDto;
-import com.vadim.springtask.model.dto.response.TagResponseDto;
 import com.vadim.springtask.model.dto.response.UserResponseDto;
-import com.vadim.springtask.model.entity.User;
 import com.vadim.springtask.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

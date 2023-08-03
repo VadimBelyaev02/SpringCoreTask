@@ -7,5 +7,5 @@ public class PaginationConstants {
 
     public static final Integer DEFAULT_PAGE_NUMBER = 0;
 
-    public static final Integer DEFAULT_PAGE_SIZE = 100;
+    public static final Integer DEFAULT_PAGE_SIZE = 10;
 }

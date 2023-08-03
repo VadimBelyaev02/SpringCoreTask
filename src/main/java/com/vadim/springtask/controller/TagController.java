@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,6 +44,9 @@ public class TagController {
 
     /**
      * GET /api/tags : Get all tags
+     *
+     * @param page a number of a page (not required)
+     * @param pageSize amount of objects per page (not required)
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -65,7 +67,7 @@ public class TagController {
     /**
      * POST /api/tags : Create a new tag
      *
-     * @param requestDto Tag to be created (required)O
+     * @param requestDto Tag to be created (required)
      * @throws DuplicateRecordException if tag with such a name already exists
      */
     @PostMapping

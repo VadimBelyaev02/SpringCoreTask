@@ -1,20 +1,19 @@
 package com.vadim.springtask.dao.impl;
 
 import com.vadim.springtask.dao.TagDao;
-import com.vadim.springtask.model.entity.GiftCertificate;
 import com.vadim.springtask.model.entity.Tag;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class TagDaoImpl implements TagDao {
 
