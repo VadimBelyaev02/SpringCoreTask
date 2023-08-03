@@ -40,6 +40,7 @@ public class UserController {
     ) {
         page = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
         pageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
+
         PageResponseDto<UserResponseDto> pageResponseDto = service.getAll(page, pageSize);
 
         return ApiResponseDto.successApiResponse(
