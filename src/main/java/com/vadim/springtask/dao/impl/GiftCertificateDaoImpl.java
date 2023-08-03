@@ -6,14 +6,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
@@ -59,8 +59,9 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     public List<GiftCertificate> findAll(Integer page, Integer pageSize) {
         String query = "SELECT gc FROM GiftCertificate gc";
         TypedQuery<GiftCertificate> typedQuery = manager.createQuery(query, GiftCertificate.class);
-        typedQuery.setFirstResult(page * pageSize);
-        typedQuery.setMaxResults(pageSize);
+    //    typedQuery.setFirstResult(page * pageSize);
+     //   typedQuery.setMaxResults(pageSize);
+       //  typedQuery.getResultList().forEach(System.out::println);
         return typedQuery.getResultList();
     }
 

@@ -59,7 +59,7 @@ public class GiftCertificateController {
     ) {
         page = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
         pageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
-
+        System.out.println(page + ", "  + pageSize);
         PageResponseDto<GiftCertificateResponseDto> responseDtos = service.getAll(page, pageSize);
 
         return ApiResponseDto.successApiResponse(
