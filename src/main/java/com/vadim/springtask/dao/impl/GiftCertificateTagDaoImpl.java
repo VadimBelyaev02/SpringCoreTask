@@ -1,15 +1,11 @@
 package com.vadim.springtask.dao.impl;
 
 import com.vadim.springtask.dao.GiftCertificateTagDao;
-import com.vadim.springtask.model.entity.GiftCertificate;
 import com.vadim.springtask.model.entity.GiftCertificateTag;
 import com.vadim.springtask.model.entity.GiftCertificateTagId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class GiftCertificateTagDaoImpl implements GiftCertificateTagDao {
 
