@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserResponseDto getById(UUID id) {
         User user = dao.findById(id).orElseThrow(() ->
-               new NotFoundException(String.format(USER_NOT_FOUND_BY_ID, id))
+                new NotFoundException(String.format(USER_NOT_FOUND_BY_ID, id))
         );
         return mapper.toResponseDto(user);
     }
